@@ -29,7 +29,7 @@ const useStyles = createUseStyles(() => {
     },
     menuItem: {
       height: 45,
-      flexBasis: 160,
+      flexBasis: 140,
       flexGrow: 0,
       flexShrink: 1,
       cursor: 'pointer',
@@ -50,7 +50,7 @@ const useStyles = createUseStyles(() => {
     },
     menuText: {
       marginRight: 5,
-      userSelect:'none',
+      userSelect: 'none',
     },
     menuIcon: {},
     icon: {
@@ -78,10 +78,10 @@ const useStyles = createUseStyles(() => {
       background: '#fff',
       border: '1px solid #152B45',
       borderRadius: 4,
-      userSelect:'none',
-      '&:hover':{
+      userSelect: 'none',
+      '&:hover': {
         background: '#c0c0c0',
-      }
+      },
     },
     containedButton: {
       flexBasis: 100,
@@ -91,11 +91,26 @@ const useStyles = createUseStyles(() => {
       background: '#013B81',
       borderRadius: 4,
       color: '#fff',
-      userSelect:'none',
-      '&:hover':{
+      userSelect: 'none',
+      '&:hover': {
         background: '#052f62',
-      }
+      },
     },
+    intro:{
+        padding: `57px 284px 0 282px`,
+        textAlign: 'center',
+        '& > h2':{
+            fontSize: 28,
+            color: '#01254F',
+            fontFamily: 'SF Pro Display',
+            marginBottom: 20
+        },
+        '& > p':{
+            fontSize: 16,
+            color: '#000000A6',
+            fontFamily: 'SF Pro Display'
+        }
+    }
   };
 });
 
@@ -154,6 +169,14 @@ function MainPage() {
         </section>
       </header>
       <main>
+        <section className={classes.intro}>
+          <h2>Forex Webinars</h2>
+          <div>
+            Whether you are new to foreign exchange trading or already have some
+            market experience, we believe that a solid FX trading education is
+            vital to your success as a trader.
+          </div>
+        </section>
         <section></section>
         <section></section>
       </main>
