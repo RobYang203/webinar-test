@@ -1,3 +1,11 @@
-const theme = {};
+import normalize from './normalize';
+import { jss } from 'react-jss';
 
-export default theme;
+const theme = {
+  ...normalize,
+};
+
+export default function configureTheme() {
+  jss.createStyleSheet(theme).attach();
+  return theme;
+};

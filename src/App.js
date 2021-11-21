@@ -1,5 +1,4 @@
 import LoadingMask from 'components/LoadingMask';
-import MessageCenter from 'components/MessageCenter';
 import MainLayout from 'layouts/MainLayout';
 import MainPage from 'pages/MainPage';
 import { Switch, Route } from 'react-router-dom';
@@ -7,7 +6,6 @@ import { Switch, Route } from 'react-router-dom';
 function App() {
   return (
     <div className='App'>
-      <MessageCenter />
       <MainLayout>
         <Switch>
           <Route path='/' component={MainPage} />
