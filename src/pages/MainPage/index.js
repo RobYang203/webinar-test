@@ -134,7 +134,7 @@ const useStyles = createUseStyles(() => {
       background: '#FFF',
       border: '1px solid #D6D6D6',
       borderRadius: 4,
-      boxShadow: '1px 2px 6px #DBDBDB80'
+      boxShadow: '1px 2px 6px #DBDBDB80',
     },
     webinarItemContainer: {
       display: 'flex',
@@ -146,6 +146,7 @@ const useStyles = createUseStyles(() => {
     },
     webinarItemHeader: {
       color: '#01254F',
+      width: 280,
     },
     webinarItemTitle: {
       margin: '20px 0',
@@ -159,6 +160,7 @@ const useStyles = createUseStyles(() => {
       fontSize: 14,
       color: '#000000A6',
       fontFamily: 'SF Pro Display',
+      width: 280,
     },
     webinarItemContent: {
       margin: '20px 0',
@@ -167,12 +169,12 @@ const useStyles = createUseStyles(() => {
     webinarItemFooter: {
       margin: '20px 0',
     },
-    webinarItemButtonGroup:{
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'nowrap',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+    webinarItemButtonGroup: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+      justifyContent: 'space-between',
+      alignItems: 'center',
     },
     webinarItemButton: {
       padding: 0,
@@ -199,6 +201,114 @@ const useStyles = createUseStyles(() => {
       lineHeight: '5px',
       '&:hover': {
         background: '#efefef',
+      },
+    },
+    news: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+      marginTop: 166,
+      marginBottom: 160,
+      padding: '0 94px 0 91px',
+    },
+    newsIntro: {
+      flexBasis: '50%',
+      flexGrow: 1,
+      flexShrink: 1,
+      '& > h2': {
+        color: '#01254F',
+        fontSize: 22,
+      },
+      '& > p': {
+        color: '#000000A6',
+        fontSize: 16,
+        width: 481,
+      },
+    },
+    newsVideo: {
+      flexBasis: 580,
+      flexGrow: 1,
+      flexShrink: 1,
+    },
+    newsButton: {
+      padding: 0,
+      background: '#ffffff00',
+      border: 0,
+      color: '#000000A6',
+      cursor: 'pointer',
+      fontSize: 16,
+      display: 'inline-flex',
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      height: 24,
+      '& > span': {
+        paddingRight: 12,
+      },
+      '&:hover': {
+        background: '#efefef',
+      },
+    },
+    register: {
+      padding: 93,
+    },
+    registerCard: {
+      display: 'flex',
+      flexDirection: 'column',
+      flexWrap: 'noWrap',
+      justifyContent: 'space-around',
+      background: '#FFF',
+      border: '1px solid #D6D6D6',
+      borderRadius: 20,
+      boxShadow: '1px 2px 6px #DBDBDB80',
+      alignItems: 'center',
+      padding: '80px 0',
+    },
+    registerCardHeader: {
+      textAlign: 'center',
+      width: 580
+    },
+    registerCardTitle: {
+      color: '#01254F',
+    },
+    registerCardSubtitle: {
+        color:'#000000A6',
+        fontSize: 16,
+    },
+    registerCardBody: {},
+    formControl: {
+      display: 'flex',
+      flexDirection: 'column',
+      flexWrap: 'noWrap',
+      alignItems: 'flex-start',
+      marginBottom: 20,
+    },
+    formLabel: {
+      fontSize: 16,
+      color: '#4A4A4A',
+      marginBottom: 8,
+    },
+    formItem: {
+      width: 578,
+      height: 40,
+      background: '#FFF',
+      border: '1px solid #D6D6D6',
+      borderRadius: 4,
+      padding: 0,
+    },
+    formButton: {
+      cursor: 'pointer',
+      width: 580,
+      height: 43,
+      background: '#013B81',
+      borderRadius: 4,
+      color: '#fff',
+      userSelect: 'none',
+      border: 0,
+      '&:hover': {
+        background: '#052f62',
       },
     },
   };
@@ -298,7 +408,71 @@ function MainPage() {
           <div className={classes.webinarItem}></div>
           <div className={classes.webinarItem}></div>
         </section>
-        <section></section>
+        <section className={classes.news}>
+          <div className={classes.newsIntro}>
+            <h2>Meet Your Host - Alistair Schultz</h2>
+            <p>
+              With more than 15 years of experience covering both the FX and CFD
+              markets, Alistair has extensive knowledge covering algorithmic
+              trading, market analysis & an impressive educational background.
+              <br /> <br />
+              As the author of ‘Essentials for Trading Students – An Overview of
+              the Basics for Aspiring Traders’, which was released in 2017,
+              Alistair will take any aspiring trader from the basics right
+              through to advanced analytics used in institutional funds.
+              <br /> <br />
+              At the core of Alistair’s teachings is the ability to help each
+              trader uncover their ‘Trading DNA', helping them flourish with the
+              skills and timeframes that work best for them.
+            </p>
+            <button className={classes.newsButton}>
+              <span>See more</span>
+              <FaChevronRight size={12} />
+            </button>
+          </div>
+          <div className={classes.newsVideo}>
+            <iframe
+              width='100%'
+              height='338'
+              src='https://www.youtube.com/embed/DWDVNjqaX4o'
+              title='YouTube video player'
+              frameborder='0'
+              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+              allowfullscreen></iframe>
+          </div>
+        </section>
+        <section className={classes.register}>
+          <div className={classes.registerCard}>
+            <div className={classes.registerCardHeader}>
+              <h2 className={classes.registerCardTitle}>
+                Register for a Webinar now
+              </h2>
+              <p className={classes.registerCardSubtitle}>
+                Please fill in the form below and you will be contacted by one
+                of our professional business experts.
+              </p>
+            </div>
+            <div className={classes.registerCardBody}>
+              <div className={classes.formControl}>
+                <label className={classes.formLabel}>Topic</label>
+                <input className={classes.formItem} />
+              </div>
+              <div className={classes.formControl}>
+                <label className={classes.formLabel}>First Name</label>
+                <input className={classes.formItem} />
+              </div>
+              <div className={classes.formControl}>
+                <label className={classes.formLabel}>Last Name</label>
+                <input className={classes.formItem} />
+              </div>
+              <div className={classes.formControl}>
+                <label className={classes.formLabel}>Email</label>
+                <input className={classes.formItem} />
+              </div>
+              <button className={classes.formButton}>Register</button>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );
