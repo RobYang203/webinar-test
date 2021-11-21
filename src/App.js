@@ -1,6 +1,6 @@
 import LoadingMask from 'components/LoadingMask';
+import BlankLayout from 'layouts/BlankLayout';
 import MainLayout from 'layouts/MainLayout';
-import MainPage from 'pages/MainPage';
 import { Switch, Route } from 'react-router-dom';
 
 function App() {
@@ -8,7 +8,8 @@ function App() {
     <div className='App'>
       <MainLayout>
         <Switch>
-          <Route path='/' component={MainPage} />
+          <Route path='/app' component={MainLayout} />
+          <Route path='/' component={BlankLayout} />
         </Switch>
       </MainLayout>
       <LoadingMask />
