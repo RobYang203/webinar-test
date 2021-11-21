@@ -2,6 +2,11 @@ import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { ReactComponent as Logo } from 'assets/logo.svg';
 import { FaAngleDown, FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import BaseButton from 'components/Button/BaseButton';
+import ContainedButton from 'components/Buttons/ContainedButton';
+import OutlinedButton from 'components/Buttons/OutlinedButton';
+import IconButton from 'components/Buttons/IconButton';
+import Button from 'components/Button';
 
 const useStyles = createUseStyles(() => {
   return {
@@ -268,14 +273,14 @@ const useStyles = createUseStyles(() => {
     },
     registerCardHeader: {
       textAlign: 'center',
-      width: 580
+      width: 580,
     },
     registerCardTitle: {
       color: '#01254F',
     },
     registerCardSubtitle: {
-        color:'#000000A6',
-        fontSize: 16,
+      color: '#000000A6',
+      fontSize: 16,
     },
     registerCardBody: {},
     formControl: {

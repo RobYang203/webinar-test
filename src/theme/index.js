@@ -4,6 +4,12 @@ import { jss } from 'react-jss';
 const theme = {
   ...normalize,
   palette:{
+    default:{
+      light: '#fff',
+      main: '#e3e3e3',
+      contrastText: '#152B45',
+      dark: '#d5d5d5'
+    },
     primary:{
       light: '#1454a1',
       main: '#013B81',
@@ -16,14 +22,8 @@ const theme = {
       contrastText: '#4A4A4A',
       dark: '#d5d5d5'
     },
-    thirdly:{
-      light: '#fff',
-      main: '#e3e3e3',
-      contrastText: '#152B45',
-      dark: '#d5d5d5'
-    },
     info:{
-      light: '#81c784',
+      light: '#abff52',
       main: '#6BB718',
       dark: '#388e3c',
       contrastText: '#fff',
@@ -33,6 +33,12 @@ const theme = {
       main: '#f44336',
       dark: '#d32f2f',
       contrastText: '#fff',
+    },
+    grey:{
+      light: '#fff',
+      main: '#e3e3e3',
+      contrastText: '#4A4A4A',
+      dark: '#d5d5d5'
     },
     textPrimary: '#01254F',
     textSecondary: '#000000A6',
