@@ -1,16 +1,13 @@
 import LoadingMask from 'components/LoadingMask';
 import MainLayout from 'layouts/MainLayout';
-import MainPage from 'pages/MainPage';
 import { Switch, Route } from 'react-router-dom';
 
 function App() {
   return (
     <div className='App'>
-      <MainLayout>
-        <Switch>
-          <Route path='/' component={MainPage} />
-        </Switch>
-      </MainLayout>
+      <Switch>
+        <Route path='/' component={MainLayout} />
+      </Switch>
       <LoadingMask />
     </div>
   );
