@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
+import classNamePrefix from 'components/HOC/classNamePrefix';
 
 const useStyles = createUseStyles(({ palette }) => {
   return {
@@ -43,4 +44,4 @@ BaseButton.propTypes = {
   maxWidth: PropTypes.bool,
 };
 
-export default BaseButton;
+export default classNamePrefix('base-button', BaseButton);

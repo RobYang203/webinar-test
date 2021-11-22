@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import { FaChevronDown } from 'react-icons/fa';
 import classNames from 'classnames';
+import classNamePrefix from 'components/HOC/classNamePrefix';
 
 const useStyles = createUseStyles(() => {
   return {
@@ -81,4 +82,4 @@ Select.propTypes = {
   displayOfKey: PropTypes.string,
 };
 
-export default Select;
+export default classNamePrefix('select-', Select);

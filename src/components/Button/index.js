@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
 import BaseButton from './BaseButton';
+import classNamePrefix from 'components/HOC/classNamePrefix';
 
 const useStyles = createUseStyles(({ palette }) => {
   return {
@@ -77,4 +78,4 @@ Button.propTypes = {
   color: PropTypes.string,
 };
 
-export default Button;
+export default classNamePrefix('button-', Button);

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
+import classNamePrefix from 'components/HOC/classNamePrefix';
 
 const useStyles = createUseStyles((theme) => {
   return {
@@ -26,4 +27,4 @@ TextInput.propTypes = {
   maxWidth: PropTypes.bool
 };
 
-export default TextInput;
+export default classNamePrefix('text-input-' ,TextInput);
