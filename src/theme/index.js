@@ -11,16 +11,16 @@ const theme = {
       dark: '#d5d5d5'
     },
     primary:{
-      light: '#1454a1',
+      light: '#4a93f3',
       main: '#013B81',
       contrastText: '#fff',
       dark: '#052f62',
     },
     secondary:{
-      light: '#fff',
-      main: '#e3e3e3',
+      light: '#e1dfdf',
+      main: '#C6C6C6',
       contrastText: '#4A4A4A',
-      dark: '#d5d5d5'
+      dark: '#979696'
     },
     info:{
       light: '#abff52',

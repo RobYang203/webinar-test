@@ -7,6 +7,9 @@ import ContainedButton from 'components/Buttons/ContainedButton';
 import OutlinedButton from 'components/Buttons/OutlinedButton';
 import IconButton from 'components/Buttons/IconButton';
 import Button from 'components/Button';
+import TextInput from 'components/Form/TextInput';
+import FormLabel from 'components/Form/FormLabel';
+import Select from 'components/Form/Select';
 
 const useStyles = createUseStyles(() => {
   return {
@@ -358,6 +361,7 @@ function MainPage() {
               />{' '}
             </div>
           </div>
+
           <div className={classes.menuItem}>
             <div className={classes.menuItemRoot}>
               <div className={classes.menuText}>Partners</div>
@@ -472,9 +476,40 @@ function MainPage() {
               </div>
               <div className={classes.formControl}>
                 <label className={classes.formLabel}>Email</label>
+                <TextInput type='password' maxWidth />
                 <input className={classes.formItem} />
               </div>
+              <FormLabel
+                labelId='test'
+                labelText='First Name'
+                type='password'
+                control={TextInput}
+              />
               <button className={classes.formButton}>Register</button>
+              <Select
+                data={[
+                  {
+                    display:
+                      "23/07/20 - Alistair's Favourite Chart Patterns You Can Apply to Your Trading",
+                    value: '123',
+                  },
+                  { display: 'hello2', value: '1234' },
+                  { display: 'hello2', value: '1234' },
+                  { display: 'hello2', value: '1234' },
+                  { display: 'hello2', value: '1234' },
+                  { display: 'hello2', value: '1234' },
+                  { display: 'hello2', value: '1234' },
+                  { display: 'hello2', value: '1234' },
+                  { display: 'hello2', value: '1234' },
+                  { display: 'hello2', value: '1234' },
+                  { display: 'hello2', value: '1234' },
+                  { display: 'hello2', value: '1234' },
+                  { display: 'hello2', value: '1234' },
+                  { display: 'hello2', value: '1234' },
+                  { display: 'hello2', value: '1234' },
+                ]}
+                onChange={(value) => console.log(value.target.value)}
+              />
             </div>
           </div>
         </section>
