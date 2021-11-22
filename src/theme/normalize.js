@@ -3,6 +3,7 @@ const normalize = {
     html: {
       lineHeight: '1.15',
       webkitTextSizeAdjust: '100%',
+      fontSize: 12
     },
     body: {
       margin: '0',
@@ -11,8 +12,17 @@ const normalize = {
       display: 'block',
     },
     h1: {
-      fontSize: '2em',
+      fontSize: '2.333rem',
       margin: '0.67em 0',
+    },
+    h2: {
+      fontSize: '1.833rem',
+    },
+    h4: {
+      fontSize: '1.333rem',
+    },
+    h5: {
+      fontSize: '1.166rem',
     },
     hr: {
       boxSizing: 'content-box',
@@ -135,5 +145,4 @@ const normalize = {
   },
 };
 
-
-export default normalize
+export default normalize;
