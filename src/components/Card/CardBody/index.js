@@ -1,23 +1,24 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import classNamePrefix from 'components/HOC/classNamePrefix';
+
 import classNames from 'classnames';
 
 const useStyles = createUseStyles(
   () => {
     return {
       root: {
-        order: -1,
-        alignSelf: 'flex-end',
+        order: -2,
+        flex: 1,
+        width: '100%',
       },
     };
   },
-  { name: 'card-footer' }
+  { name: 'card-body' }
 );
 
-function CardFooter({ className, children }) {
+function CardBody({ className, children }) {
   const classes = useStyles();
   return <div className={classNames(className, classes.root)}>{children}</div>;
 }
 
-export default CardFooter;
+export default CardBody;

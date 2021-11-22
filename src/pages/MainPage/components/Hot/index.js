@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createUseStyles, JssProvider } from 'react-jss';
-import classNamePrefix from 'components/HOC/classNamePrefix';
-import classNames from 'classnames';
-import { FaChevronRight } from 'react-icons/fa';
+import { createUseStyles } from 'react-jss';
 import Button from 'components/Button';
+import { FaChevronRight } from 'react-icons/fa';
 
 const useStyles = createUseStyles(
   ({ palette }) => {
@@ -64,16 +62,18 @@ function Hot({ title, content, videoUrl }) {
           height='338'
           src={videoUrl}
           title='YouTube video player'
-          frameborder='0'
+          frameBorder='0'
           allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-          allowfullscreen></iframe>
+          allowFullScreen></iframe>
       </div>
     </section>
   );
 }
 
-Hot.defaultProps = {};
-
-Hot.propTypes = {};
+Hot.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  videoUrl: PropTypes.string.isRequired,
+};
 
 export default Hot;

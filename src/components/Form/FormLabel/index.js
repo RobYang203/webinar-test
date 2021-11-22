@@ -2,7 +2,6 @@ import React, { cloneElement, isValidElement } from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
-import classNamePrefix from 'components/HOC/classNamePrefix';
 
 const useStyles = createUseStyles(
   (theme) => {
@@ -29,30 +28,33 @@ const useStyles = createUseStyles(
 
 function FormLabel({
   className,
-  labelId,
   labelText,
   errorMsg,
+  controlId,
   control: Control,
   ...props
 }) {
   const classes = useStyles(props);
   return (
     <div className={classNames(className, classes.root)}>
-      <label id={labelId} className={classes.label}>
+      <label htmlFor={controlId} className={classes.label}>
         {labelText}
       </label>
       {Boolean(errorMsg) && <div className={classes.error}>{errorMsg}</div>}
       {isValidElement(Control) ? (
         cloneElement(Control, props)
       ) : (
-        <Control {...props} />
+        <Control {...props} id={controlId} />
       )}
     </div>
   );
 }
 
 FormLabel.propTypes = {
-  maxWidth: PropTypes.bool,
+  labelText: PropTypes.string,
+  errorMsg: PropTypes.string,
+  controlId: PropTypes.string,
+  control: PropTypes.oneOfType([PropTypes.element, PropTypes.elementType]),
 };
 
 export default FormLabel;

@@ -36,7 +36,7 @@ const theme = {
     },
     grey:{
       light: '#fff',
-      main: '#e3e3e3',
+      main: '#e9e9e9',
       contrastText: '#4A4A4A',
       dark: '#d5d5d5'
     },

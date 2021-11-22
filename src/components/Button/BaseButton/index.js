@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
-import classNamePrefix from 'components/HOC/classNamePrefix';
 
 const useStyles = createUseStyles(
   ({ palette }) => {
@@ -27,8 +26,15 @@ const useStyles = createUseStyles(
   { name: 'base-button' }
 );
 
-function BaseButton({ children, variant, className, ...props }) {
-  const classes = useStyles(props);
+function BaseButton({
+  color,
+  variant,
+  maxWidth,
+  children,
+  className,
+  ...props
+}) {
+  const classes = useStyles({ maxWidth, color });
   return (
     <button className={classNames(className, classes.root)} {...props}>
       {children}
@@ -43,6 +49,7 @@ BaseButton.defaultProps = {
 };
 
 BaseButton.propTypes = {
+  color: PropTypes.string,
   variant: PropTypes.string,
   maxWidth: PropTypes.bool,
 };

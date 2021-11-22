@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles, JssProvider } from 'react-jss';
-import classNamePrefix from 'components/HOC/classNamePrefix';
+
 import classNames from 'classnames';
 
 const useStyles = createUseStyles(
@@ -33,7 +33,8 @@ const useStyles = createUseStyles(
 function Card({ className, roundSize, children }) {
   const classes = useStyles();
   return (
-    <div className={classNames(className, classes.root, classes[roundSize])}>
+    <div
+      className={classNames(className, classes.root, classes[roundSize])}>
       {children}
     </div>
   );

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
 import BaseButton from './BaseButton';
-import classNamePrefix from 'components/HOC/classNamePrefix';
 
 const useStyles = createUseStyles(
   ({ palette }) => {
@@ -43,6 +42,10 @@ const useStyles = createUseStyles(
           '&:hover': {
             background: target.dark,
           },
+          '&:disabled': {
+            background: palette.grey.main,
+            color: '#D1D1D1',
+          },
         };
       },
       icon: ({ color }) => {
@@ -56,16 +59,25 @@ const useStyles = createUseStyles(
           padding: `20px 20px`,
         };
       },
+      maxWidth: {
+        width: '100%',
+      },
     };
   },
   { name: 'button' }
 );
 
-function Button({ children, variant, className, ...props }) {
+function Button({ children, variant, maxWidth, className, ...props }) {
   const classes = useStyles(props);
 
   return (
-    <BaseButton className={classNames(className, classes[variant])} {...props}>
+    <BaseButton
+      className={classNames(
+        className,
+        classes[variant],
+        { [classes.maxWidth]: maxWidth },
+      )}
+      {...props}>
       {children}
     </BaseButton>
   );
@@ -74,6 +86,7 @@ function Button({ children, variant, className, ...props }) {
 Button.defaultProps = {
   color: 'default',
   variant: 'default',
+  maxWidth: false,
 };
 
 Button.propTypes = {

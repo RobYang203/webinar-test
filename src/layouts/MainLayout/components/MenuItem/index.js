@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import { FaChevronDown } from 'react-icons/fa';
-import classNamePrefix from 'components/HOC/classNamePrefix';
+
 
 const useStyles = createUseStyles(
   (theme) => {

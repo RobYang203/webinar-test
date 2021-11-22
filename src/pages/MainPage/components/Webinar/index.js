@@ -4,10 +4,9 @@ import { createUseStyles } from 'react-jss';
 import { FaChevronRight } from 'react-icons/fa';
 import Card from 'components/Card';
 import Button from 'components/Button';
-import classNamePrefix from 'components/HOC/classNamePrefix';
-import CardHeader from 'components/Card/components/CardHeader';
-import CardBody from 'components/Card/components/CardBody';
-import CardFooter from 'components/Card/components/CardFooter';
+import CardHeader from 'components/Card/CardHeader';
+import CardBody from 'components/Card/CardBody';
+import CardFooter from 'components/Card/CardFooter';
 
 const useStyles = createUseStyles(
   ({ palette }) => {
