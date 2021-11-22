@@ -5,41 +5,44 @@ import { FaChevronDown } from 'react-icons/fa';
 import classNames from 'classnames';
 import classNamePrefix from 'components/HOC/classNamePrefix';
 
-const useStyles = createUseStyles(() => {
-  return {
-    root: {
-      position: 'relative',
-      width: '100%',
-      height: 40,
-    },
-    selectedView: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      pointerEvents: 'none',
-      paddingRight: 10,
-      paddingTop: 10,
-      color: '#D6D6D6',
-      '& > svg': {
-        float: 'right',
+const useStyles = createUseStyles(
+  () => {
+    return {
+      root: {
+        position: 'relative',
+        width: '100%',
+        height: 40,
       },
-    },
-    select: {
-      fontSize: 16,
-      appearance: 'none',
-      minHeight: '100%',
-      width: '100%',
-      padding: '10px 40px 10px 12px',
-      backgroundColor: '#FFF',
-      color: 'gray',
-      border: '1px solid #D6D6D6',
-      borderRadius: 4,
-      whiteSpace: 'break-spaces',
-    },
-  };
-});
+      selectedView: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        pointerEvents: 'none',
+        paddingRight: 10,
+        paddingTop: 10,
+        color: '#D6D6D6',
+        '& > svg': {
+          float: 'right',
+        },
+      },
+      select: {
+        fontSize: 16,
+        appearance: 'none',
+        minHeight: '100%',
+        width: '100%',
+        padding: '10px 40px 10px 12px',
+        backgroundColor: '#FFF',
+        color: 'gray',
+        border: '1px solid #D6D6D6',
+        borderRadius: 4,
+        whiteSpace: 'break-spaces',
+      },
+    };
+  },
+  { name: 'select' }
+);
 
 function Select({
   data,
@@ -82,4 +85,4 @@ Select.propTypes = {
   displayOfKey: PropTypes.string,
 };
 
-export default classNamePrefix('select-', Select);
+export default Select;

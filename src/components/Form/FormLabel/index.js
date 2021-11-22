@@ -4,25 +4,28 @@ import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
 import classNamePrefix from 'components/HOC/classNamePrefix';
 
-const useStyles = createUseStyles((theme) => {
-  return {
-    root: {
-      display: 'flex',
-      flexDirection: 'column',
-      flexWrap: 'noWrap',
-      alignItems: 'flex-start',
-      gap: 5,
-    },
-    label: {
-      fontSize: 16,
-      color: theme.palette.grey.contrastText,
-    },
-    error: {
-      paddingLeft: 2,
-      color: theme.palette.error.main,
-    },
-  };
-});
+const useStyles = createUseStyles(
+  (theme) => {
+    return {
+      root: {
+        display: 'flex',
+        flexDirection: 'column',
+        flexWrap: 'noWrap',
+        alignItems: 'flex-start',
+        gap: 5,
+      },
+      label: {
+        fontSize: 16,
+        color: theme.palette.grey.contrastText,
+      },
+      error: {
+        paddingLeft: 2,
+        color: theme.palette.error.main,
+      },
+    };
+  },
+  { name: 'form-label' }
+);
 
 function FormLabel({
   className,
@@ -52,4 +55,4 @@ FormLabel.propTypes = {
   maxWidth: PropTypes.bool,
 };
 
-export default classNamePrefix('form-label-' ,FormLabel);
+export default FormLabel;
