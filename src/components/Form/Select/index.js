@@ -40,12 +40,19 @@ const useStyles = createUseStyles(() => {
   };
 });
 
-function Select({ data, defaultValue, displayOfKey, valueOfKey, onChange }) {
+function Select({
+  data,
+  onChange,
+  className,
+  valueOfKey,
+  displayOfKey,
+  defaultValue,
+}) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <div className={classNames(classes.selectedView)}>
+      <div className={classNames(className, classes.selectedView)}>
         <FaChevronDown size={20} />
       </div>
       <select

@@ -10,6 +10,7 @@ import Button from 'components/Button';
 import TextInput from 'components/Form/TextInput';
 import FormLabel from 'components/Form/FormLabel';
 import Select from 'components/Form/Select';
+import Card from 'components/Card';
 
 const useStyles = createUseStyles(() => {
   return {
@@ -139,12 +140,12 @@ const useStyles = createUseStyles(() => {
       flexBasis: 380,
       flexGrow: 0,
       height: 300,
+    },
+    webinarItemContainer: {
       background: '#FFF',
       border: '1px solid #D6D6D6',
       borderRadius: 4,
       boxShadow: '1px 2px 6px #DBDBDB80',
-    },
-    webinarItemContainer: {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
@@ -414,7 +415,39 @@ function MainPage() {
               </div>
             </div>
           </div>
-          <div className={classes.webinarItem}></div>
+          <div className={classes.webinarItem}>
+            <Card
+              header={
+                <div className={classes.webinarItemHeader}>
+                  <h5 className={classes.webinarItemTitle}>31/10/2019</h5>
+                  <h4 className={classes.webinarItemSubtitle}>
+                    A structured approach to deciphering FX & Gold sentiment
+                  </h4>
+                </div>
+              }
+              body={
+                <div className={classes.webinarItemBody}>
+                  <p className={classes.webinarItemContent}>
+                    Market scan across FX & Gold to determine sentiment with
+                    accuracy.
+                  </p>
+                  <p className={classes.webinarItemTime}>7pm-8:30pm EST</p>
+                </div>
+              }
+              footer={
+                <div className={classes.webinarItemFooter}>
+                  <div className={classes.webinarItemButtonGroup}>
+                    <button className={classes.webinarItemButton}>
+                      Register Now
+                    </button>
+                    <button className={classes.webinarItemIconButton}>
+                      <FaChevronRight size={12} />
+                    </button>
+                  </div>
+                </div>
+              }
+            />
+          </div>
           <div className={classes.webinarItem}></div>
         </section>
         <section className={classes.news}>
@@ -486,30 +519,6 @@ function MainPage() {
                 control={TextInput}
               />
               <button className={classes.formButton}>Register</button>
-              <Select
-                data={[
-                  {
-                    display:
-                      "23/07/20 - Alistair's Favourite Chart Patterns You Can Apply to Your Trading",
-                    value: '123',
-                  },
-                  { display: 'hello2', value: '1234' },
-                  { display: 'hello2', value: '1234' },
-                  { display: 'hello2', value: '1234' },
-                  { display: 'hello2', value: '1234' },
-                  { display: 'hello2', value: '1234' },
-                  { display: 'hello2', value: '1234' },
-                  { display: 'hello2', value: '1234' },
-                  { display: 'hello2', value: '1234' },
-                  { display: 'hello2', value: '1234' },
-                  { display: 'hello2', value: '1234' },
-                  { display: 'hello2', value: '1234' },
-                  { display: 'hello2', value: '1234' },
-                  { display: 'hello2', value: '1234' },
-                  { display: 'hello2', value: '1234' },
-                ]}
-                onChange={(value) => console.log(value.target.value)}
-              />
             </div>
           </div>
         </section>
