@@ -65,13 +65,14 @@ function Webinar({
   subTitle,
   content,
   time,
+  isRegistered,
   onRegisterClick,
   onWebinarClick,
 }) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Card body={<div></div>} footer={<div></div>}>
+      <Card>
         <CardHeader className={classes.header}>
           <h5 className={classes.title}>{title}</h5>
           <h4 className={classes.subtitle}>{subTitle}</h4>
@@ -82,8 +83,11 @@ function Webinar({
         </CardBody>
         <CardFooter className={classes.footer}>
           <div className={classes.buttonGroup}>
-            <Button className={classes.button} color='info'>
-              Register Now
+            <Button
+              color='info'
+              disabled={isRegistered}
+              className={classes.button}>
+              {isRegistered ? 'Registered' : ' Register Now'}
             </Button>
             <Button className={classes.icon} variant='icon' color='info'>
               <FaChevronRight size={12} />
@@ -96,12 +100,12 @@ function Webinar({
 }
 
 Webinar.propTypes = {
-  title: PropTypes.string,
-  subTitle: PropTypes.string,
-  content: PropTypes.string,
-  time: PropTypes.string,
-  onRegisterClick: PropTypes.func,
-  onWebinarClick: PropTypes.func,
+  title: PropTypes.string.isRequired,
+  subTitle: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+  onRegisterClick: PropTypes.func.isRequired,
+  onWebinarClick: PropTypes.func.isRequired,
 };
 
 export default Webinar;
