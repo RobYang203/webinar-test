@@ -2,9 +2,10 @@ import React from 'react';
 import { ReactComponent as Logo } from 'assets/logo.svg';
 import { createUseStyles } from 'react-jss';
 import MenuItem from '../MenuItem';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AuthButtonGroup from '../AuthButtonGroup';
 import { useHistory } from 'react-router';
+import { logoutAction } from 'actions/creators/auth';
 
 const useStyles = createUseStyles(() => ({
   root: {
@@ -59,6 +60,8 @@ const selector = ({ auth }) => {
 function TopBar() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const { isAuth } = useSelector(selector);
 
   const onLoginClick = () => {
@@ -66,7 +69,7 @@ function TopBar() {
   };
 
   const onLogoutClick = () => {
-    console.log("logout")
+    dispatch(logoutAction());
   };
 
   const onRegisteredClick = () => {

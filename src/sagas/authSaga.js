@@ -62,7 +62,7 @@ export function* checkUserLoginSaga() {
     const token = getUserToken();
     const { data } = yield call(authCheckMeResult, { token });
 
-    yield put(OKCheck(data));
+    yield put(OKCheck({ ...data, token }));
   } catch (error) {
     const message = error.response?.data?.data?.message || error.message;
 
@@ -90,7 +90,8 @@ const ErrLogout = (message) => {
 
 export function* logoutSaga() {
   try {
-    const token = select((auth) => auth.token);
+    const token = yield select(({ auth }) => auth.token);
+    
     const { data } = yield call(authLogoutResult, { token });
 
     yield put(OKLogout(data));

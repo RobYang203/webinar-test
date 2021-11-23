@@ -9,7 +9,7 @@ export const authEmailLoginResult = async (payload) => {
 };
 
 export const authCheckMeResult = async ({ token }) => {
-  const res = await server.post('/auth/me', {
+  const res = await server.post('/auth/me', null, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -19,7 +19,7 @@ export const authCheckMeResult = async ({ token }) => {
 };
 
 export const authLogoutResult = async ({ token }) => {
-  const res = await server.post('/auth/logout', {
+  const res = await server.post('/auth/logout', null, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

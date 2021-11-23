@@ -12,15 +12,15 @@ const setUserLogin = (auth, { user, token }, isAuth) => {
 
 export default function authReducer(auth = authState, { type, payload }) {
   switch (type) {
-    case type.CHECK_USER_LOGIN_SUCCESS:
+    case types.CHECK_USER_LOGIN_SUCCESS:
     case types.LOGIN_SUCCESS:
       return setUserLogin(auth, payload, true);
-    case type.LOGOUT_SUCCESS:
+    case types.LOGOUT_SUCCESS:
       return authState;
-    case type.LOGOUT_ERROR:
-    case type.LOGOUT:
-    case type.CHECK_USER_LOGIN:
-    case type.CHECK_USER_LOGIN_ERROR:
+    case types.LOGOUT_ERROR:
+    case types.LOGOUT:
+    case types.CHECK_USER_LOGIN:
+    case types.CHECK_USER_LOGIN_ERROR:
     case types.LOGIN_ERROR:
     case types.LOGIN:
     default:

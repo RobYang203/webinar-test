@@ -23,7 +23,7 @@ const ErrGetWebinars = (message) => {
 
 export function* getWebinarsSaga({ payload }) {
   try {
-    const token = select(({ auth }) => auth.token);
+    const token = yield select(({ auth }) => auth.token);
     const { data } = yield call(getPostsResult, { token, ...payload });
 
     yield put(OKGetWebinars(data));
@@ -54,7 +54,7 @@ const ErrAddWebinar = (message) => {
 
 export function* addUserWebinarSaga({ payload }) {
   try {
-    const token = select((auth) => auth.token);
+    const token = yield select(({ auth }) => auth.token);
     yield call(insertFavouriteResult, { token, ...payload });
 
     yield put(OKAddWebinar(payload));
@@ -85,7 +85,7 @@ const ErrDeleteWebinar = (message) => {
 
 export function* deleteUserWebinarSaga({ payload }) {
   try {
-    const token = select((auth) => auth.token);
+    const token = yield select(({ auth }) => auth.token);
     yield call(deleteFavouriteResult, { token, payload });
 
     yield put(OKDeleteWebinar(payload));
