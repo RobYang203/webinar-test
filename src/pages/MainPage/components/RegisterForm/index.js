@@ -50,12 +50,11 @@ const useStyles = createUseStyles(
   { name: 'webinar' }
 );
 
-
 const initState = {
   id: null,
-  firstName: undefined,
-  lastName: undefined,
-  email: undefined,
+  firstName: null,
+  lastName: null,
+  email: null,
 };
 
 const FORM_DATA_CHANGE_ACTION = 'FORM_DATA_CHANGE_ACTION';
@@ -85,14 +84,14 @@ function RegisterForm({ data }) {
   };
 
   useEffect(() => {
-    if (data.length !== 0)
+    if (data.length !== 0 && form.id === null)
       dispatch({
         type: FORM_DATA_CHANGE_ACTION,
         payload: {
           id: data[0].id,
         },
       });
-  }, [data]);
+  }, [data, form.id]);
 
   return (
     <form id='register' className={classes.root}>
@@ -124,7 +123,7 @@ function RegisterForm({ data }) {
             errorMsg={errors.firstName}
             className={classes.formControl}
             onChange={onFormChange('firstName')}
-            showErrorMsg={form.firstName !== undefined}
+            showErrorMsg={form.firstName !== null}
           />
           <FormLabel
             maxWidth
@@ -134,7 +133,7 @@ function RegisterForm({ data }) {
             errorMsg={errors.lastName}
             className={classes.formControl}
             onChange={onFormChange('lastName')}
-            showErrorMsg={form.lastName !== undefined}
+            showErrorMsg={form.lastName !== null}
           />
           <FormLabel
             maxWidth
@@ -144,15 +143,15 @@ function RegisterForm({ data }) {
             errorMsg={errors.email}
             onChange={onFormChange('email')}
             className={classes.formControl}
-            showErrorMsg={form.email !== undefined}
+            showErrorMsg={form.email !== null}
           />
         </CardBody>
         <CardFooter className={classes.footer}>
           <Button
             maxWidth
-            disabled={!isValidate}
             color='primary'
             variant='contained'
+            disabled={!isValidate}
             className={classes.button}>
             Register
           </Button>
@@ -163,7 +162,7 @@ function RegisterForm({ data }) {
 }
 
 RegisterForm.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
 };
 
 export default RegisterForm;
