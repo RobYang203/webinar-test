@@ -3,7 +3,7 @@ export const settingState = {
 };
 
 export const userState = {
-  isAuth: true,
+  isAuth: false,
   token: '',
   user: {},
 };
