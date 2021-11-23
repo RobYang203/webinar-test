@@ -4,6 +4,7 @@ import Introduction from './components/Introduction';
 import Webinar from './components/Webinar';
 import Hot from './components/Hot';
 import RegisterForm from './components/RegisterForm';
+import { useSelector } from 'react-redux';
 
 const useStyles = createUseStyles(() => {
   return {
@@ -23,8 +24,17 @@ const useStyles = createUseStyles(() => {
   };
 });
 
+const selector = ({ user, webinar }) => {
+  return {
+    isAuth: user.isAuth,
+    webinars: webinar.list,
+  };
+};
+
 function MainPage() {
   const classes = useStyles();
+  const { isAuth, webinars } = useSelector(selector);
+
   return (
     <div className={classes.root}>
       <main>
