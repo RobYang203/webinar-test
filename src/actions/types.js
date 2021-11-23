@@ -6,7 +6,14 @@ export const syncActionTypes = [
   'SEND_MESSAGE',
 ];
 
-export const basicAsyncActionTypes = [];
+export const basicAsyncActionTypes = [
+  'LOGIN',
+  'CHECK_USER_LOGIN',
+  'LOGOUT',
+  'GET_WEBINARS',
+  'ADD_USER_WEBINAR',
+  'DELETE_USER_WEBINAR',
+];
 
 const asyncActionTypes = basicAsyncActionTypes.reduce((result, actionType) => {
   return [
