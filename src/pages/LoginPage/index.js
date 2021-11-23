@@ -9,8 +9,9 @@ import FormLabel from 'components/Form/FormLabel';
 import TextInput from 'components/Form/TextInput';
 import { validate } from 'utils';
 import { loginFormSchema } from './schema';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import { loginAction } from 'actions/creators/auth';
 
 const useStyles = createUseStyles(
   ({ palette }) => {
@@ -66,23 +67,24 @@ const reducer = (state, { type, payload }) => {
   }
 };
 
-const selector = ({ user }) => {
+const selector = ({ auth }) => {
   return {
-    isAuth: user.isAuth,
+    isAuth: auth.isAuth,
   };
 };
 
 function LoginPage() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const { isAuth } = useSelector(selector);
-  const [form, dispatch] = useReducer(reducer, initState);
+  const [form, localDispatch] = useReducer(reducer, initState);
 
   const { isValidate, errors } = validate(loginFormSchema, form);
 
   const onFormChange = (name) => (e) => {
-    dispatch({
+    localDispatch({
       type: FORM_DATA_CHANGE_ACTION,
       payload: {
         [name]: e.target.value,
@@ -90,8 +92,10 @@ function LoginPage() {
     });
   };
 
-  const onLoginCLick = () => {
+  const onLoginCLick = (e) => {
+    e.preventDefault();
     //login
+    dispatch(loginAction(form));
   };
 
   useEffect(() => {

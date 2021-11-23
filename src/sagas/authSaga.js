@@ -5,8 +5,8 @@ import {
   authEmailLoginResult,
   authLogoutResult,
 } from 'apis/auth';
-import { insertTakeLatestWatchers } from 'sagas';
 
+//LOGIN
 const OKLogin = (payload) => {
   return {
     type: types.LOGIN_SUCCESS,
@@ -27,15 +27,16 @@ const ErrLogin = (message) => {
 export function* loginSaga({ payload }) {
   try {
     const { data } = yield call(authEmailLoginResult, payload);
+
     yield put(OKLogin(data));
   } catch (error) {
     const message = error.response?.data?.data?.message || error.message;
+
     yield put(ErrLogin(message));
   }
 }
 
-insertTakeLatestWatchers(types.LOGIN, loginSaga);
-
+//CHECK_USER_LOGIN
 const OKCheck = (payload) => {
   return {
     type: types.CHECK_USER_LOGIN_SUCCESS,
@@ -53,20 +54,20 @@ const ErrCheck = (message) => {
   };
 };
 
-function* checkUserLoginSaga() {
+export function* checkUserLoginSaga() {
   try {
     const token = select((auth) => auth.token);
     const { data } = yield call(authCheckMeResult, { token });
+
     yield put(OKCheck(data));
   } catch (error) {
     const message = error.response?.data?.data?.message || error.message;
+
     yield put(ErrCheck(message));
   }
 }
 
-insertTakeLatestWatchers(types.CHECK_USER_LOGIN, checkUserLoginSaga);
-
-
+//LOGOUT
 const OKLogout = (payload) => {
   return {
     type: types.LOGOUT_SUCCESS,
@@ -84,15 +85,16 @@ const ErrLogout = (message) => {
   };
 };
 
-function* logoutSaga() {
+export function* logoutSaga() {
   try {
     const token = select((auth) => auth.token);
     const { data } = yield call(authLogoutResult, { token });
+
     yield put(OKLogout(data));
   } catch (error) {
     const message = error.response?.data?.data?.message || error.message;
+
     yield put(ErrLogout(message));
   }
 }
 
-insertTakeLatestWatchers(types.LOGOUT, logoutSaga);
