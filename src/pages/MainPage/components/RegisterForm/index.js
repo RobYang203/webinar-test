@@ -48,17 +48,10 @@ const useStyles = createUseStyles(
   { name: 'webinar' }
 );
 
-function RegisterForm({
-  title,
-  subTitle,
-  content,
-  time,
-  onRegisterClick,
-  onWebinarClick,
-}) {
+function RegisterForm({ data }) {
   const classes = useStyles();
   return (
-    <form className={classes.root}>
+    <form id='register' className={classes.root}>
       <Card center className={classes.card} roundSize='large'>
         <CardHeader className={classes.header}>
           <h2 className={classes.title}>Register for a RegisterForm now</h2>
@@ -69,6 +62,9 @@ function RegisterForm({
         </CardHeader>
         <CardBody className={classes.body}>
           <FormLabel
+            data={data}
+            displayOfKey='title'
+            ValueOfKey='id'
             controlId='Topic'
             labelText='Topic'
             control={Select}

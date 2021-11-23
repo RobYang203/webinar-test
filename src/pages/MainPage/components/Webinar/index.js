@@ -7,6 +7,8 @@ import Button from 'components/Button';
 import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 import CardFooter from 'components/Card/CardFooter';
+import { format } from 'date-fns';
+import addDays from 'date-fns/addDays';
 
 const useStyles = createUseStyles(
   ({ palette }) => {
@@ -35,6 +37,11 @@ const useStyles = createUseStyles(
       },
       content: {
         margin: '20px 0',
+        lineClamp: 2,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        boxOrient: 'vertical',
+        display: '-webkit-box',
       },
       footer: {
         margin: '20px 0',
@@ -47,6 +54,7 @@ const useStyles = createUseStyles(
         alignItems: 'center',
       },
       button: {
+        padding: 0,
         fontSize: 16,
       },
       icon: {
@@ -60,36 +68,52 @@ const useStyles = createUseStyles(
   { name: 'webinar' }
 );
 
+const getEndAt = (createAt) => {
+  return format(addDays(new Date(createAt), 10), 'yyyy/MM/dd hh:mm');
+};
+
+function createMarkup(text) {
+  return { __html: text };
+}
+
 function Webinar({
+  id,
   title,
-  subTitle,
   content,
-  time,
+  created_at,
   isRegistered,
-  onRegisterClick,
   onWebinarClick,
+  onRegisterClick,
 }) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <Card>
         <CardHeader className={classes.header}>
-          <h5 className={classes.title}>{title}</h5>
-          <h4 className={classes.subtitle}>{subTitle}</h4>
+          <h5 className={classes.title}>{created_at}</h5>
+          <h4 className={classes.subtitle}>{title}</h4>
         </CardHeader>
         <CardBody className={classes.body}>
-          <p className={classes.content}>{content}</p>
-          <p className={classes.time}>{time}</p>
+          <p
+            className={classes.content}
+            dangerouslySetInnerHTML={createMarkup(content)}
+          />
+          <p className={classes.endAt}>{getEndAt(created_at)}</p>
         </CardBody>
         <CardFooter className={classes.footer}>
           <div className={classes.buttonGroup}>
             <Button
               color='info'
               disabled={isRegistered}
-              className={classes.button}>
+              className={classes.button}
+              onClick={() => onRegisterClick(id)}>
               {isRegistered ? 'Registered' : ' Register Now'}
             </Button>
-            <Button className={classes.icon} variant='icon' color='info'>
+            <Button
+              variant='icon'
+              color='info'
+              className={classes.icon}
+              onClick={() => onWebinarClick(id)}>
               <FaChevronRight size={12} />
             </Button>
           </div>
