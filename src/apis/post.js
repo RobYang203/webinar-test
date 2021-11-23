@@ -22,13 +22,3 @@ export const getPostResult = async ({ token , id }) => {
 
   return res;
 };
-
-export const authLogoutResult = async ({ token }) => {
-  const res = await server.post('/auth/logout', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return res;
-};

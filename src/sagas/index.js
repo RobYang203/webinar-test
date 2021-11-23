@@ -1,8 +1,17 @@
-import { fork, all } from "redux-saga/effects";
-import * as Watchers from "./watchers";
+import { fork, all, takeLatest } from 'redux-saga/effects';
+import * as Watchers from './watchers';
+
+const sagas = [];
+
+export const insertTakeLatestWatchers = (type, saga) => {
+  sagas.push(
+    fork(function* () {
+      yield takeLatest(type, saga);
+    })
+  );
+};
 
 export default function* sagaFormat() {
-  const sagas = [];
   for (const key in Watchers) {
     sagas.push(fork(Watchers[key]));
   }

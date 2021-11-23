@@ -25,9 +25,9 @@ const useStyles = createUseStyles(() => {
   };
 });
 
-const selector = ({ user, webinar }) => {
+const selector = ({ auth, webinar }) => {
   return {
-    isAuth: user.isAuth,
+    isAuth: auth.isAuth,
     webinars: webinar.list,
   };
 };

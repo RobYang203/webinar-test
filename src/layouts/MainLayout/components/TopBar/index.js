@@ -50,9 +50,9 @@ const useStyles = createUseStyles(() => ({
   },
 }));
 
-const selector = ({ user }) => {
+const selector = ({ auth }) => {
   return {
-    isAuth: user.isAuth,
+    isAuth: auth.isAuth,
   };
 };
 
