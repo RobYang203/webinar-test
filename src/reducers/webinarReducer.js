@@ -28,6 +28,7 @@ const changeUserWebinarFavourited = ({ list, detail }, { ids }, favourited) => {
     ...detail,
     list: {
       ...list,
+      data: [...list.data],
     },
   };
 };

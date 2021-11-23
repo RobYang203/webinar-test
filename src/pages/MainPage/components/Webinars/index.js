@@ -35,7 +35,8 @@ const useStyles = createUseStyles(
 function Webinars({ data, hasMore, currentPage, isAuth, handleGetWebinars }) {
   const classes = useStyles();
   const history = useHistory();
-  const onRegisterClick = (id) => {
+
+  const onRegisterClick = () => {
     if (isAuth) {
       window.scrollTo(0, document.body.scrollHeight);
     } else {
@@ -56,7 +57,7 @@ function Webinars({ data, hasMore, currentPage, isAuth, handleGetWebinars }) {
       <InfiniteScroll
         next={nextWebinars}
         hasMore={hasMore}
-        scrollThreshold={0.7}
+        scrollThreshold={0.8}
         dataLength={data.length}
         className={classes.content}
         scrollableTarget='scrollable'

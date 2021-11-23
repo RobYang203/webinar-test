@@ -68,7 +68,7 @@ const reducer = (state, { type, payload }) => {
   }
 };
 
-function RegisterForm({ data }) {
+function RegisterForm({ data, handleRegisterClick }) {
   const classes = useStyles();
   const [form, dispatch] = useReducer(reducer, initState);
 
@@ -81,6 +81,12 @@ function RegisterForm({ data }) {
         [name]: e.target.value,
       },
     });
+  };
+
+  const onRegisterClick = (e) => {
+    e.preventDefault();
+
+    handleRegisterClick(Number(form.id));
   };
 
   useEffect(() => {
@@ -105,7 +111,7 @@ function RegisterForm({ data }) {
         </CardHeader>
         <CardBody className={classes.body}>
           <FormLabel
-            data={data}
+            data={data.filter(({ favourited }) => favourited === false)}
             valueOfKey='id'
             displayOfKey='title'
             controlId='Topic'
@@ -152,7 +158,8 @@ function RegisterForm({ data }) {
             color='primary'
             variant='contained'
             disabled={!isValidate}
-            className={classes.button}>
+            className={classes.button}
+            onClick={onRegisterClick}>
             Register
           </Button>
         </CardFooter>
@@ -163,6 +170,7 @@ function RegisterForm({ data }) {
 
 RegisterForm.propTypes = {
   data: PropTypes.array.isRequired,
+  onRegisterClick: PropTypes.func.isRequired,
 };
 
 export default RegisterForm;

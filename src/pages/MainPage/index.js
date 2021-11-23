@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { createUseStyles } from 'react-jss';
 import Introduction from './components/Introduction';
-import Webinar from './components/Webinar';
 import Hot from './components/Hot';
 import RegisterForm from './components/RegisterForm';
 import { useDispatch, useSelector } from 'react-redux';
 import Webinars from './components/Webinars';
 import {
+  addUserWebinarAction,
   getWebinarsAction,
   initialWebinarAction,
 } from 'actions/creators/webinar';
@@ -49,6 +49,14 @@ function MainPage() {
       getWebinarsAction({
         page,
         author: isAuth ? userId : undefined,
+      })
+    );
+  };
+
+  const handleRegisterClick = (id) => {
+    dispatch(
+      addUserWebinarAction({
+        ids: [id],
       })
     );
   };
@@ -96,7 +104,11 @@ function MainPage() {
           }
           videoUrl='https://www.youtube.com/embed/DWDVNjqaX4o'
         />
-        <RegisterForm {...webinars} isAuth={isAuth} />
+        <RegisterForm
+          {...webinars}
+          isAuth={isAuth}
+          handleRegisterClick={handleRegisterClick}
+        />
       </main>
     </div>
   );

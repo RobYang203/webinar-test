@@ -19,7 +19,10 @@ export const getWebinarsAction = (payload) => {
 export const addUserWebinarAction = (payload) => {
   return {
     type: types.ADD_USER_WEBINAR,
-    payload,
+    payload: {
+      ...payload,
+      model: 'post',
+    },
   };
 };
 
