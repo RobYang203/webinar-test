@@ -32,10 +32,9 @@ const useStyles = createUseStyles(
   { name: 'webinars' }
 );
 
-function Webinars({ data, hasMore, isAuth }) {
+function Webinars({ data, hasMore, currentPage, isAuth, handleGetWebinars }) {
   const classes = useStyles();
   const history = useHistory();
-
   const onRegisterClick = (id) => {
     if (isAuth) {
       window.scrollTo(0, document.body.scrollHeight);
@@ -48,10 +47,14 @@ function Webinars({ data, hasMore, isAuth }) {
     history.push(`/webinar/${id}`);
   };
 
+  const nextWebinars = () => {
+    handleGetWebinars(currentPage + 1);
+  };
+
   return (
     <section id='scrollable' className={classes.root}>
       <InfiniteScroll
-        next={() => console.log('next')}
+        next={nextWebinars}
         hasMore={hasMore}
         scrollThreshold={0.7}
         dataLength={data.length}

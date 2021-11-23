@@ -4,7 +4,7 @@ import { webinarState } from './initialState';
 //_ERROR
 
 const setWebinar = ({ list, detail }, { data, meta }) => {
-  const { current_page, total_pages } = meta;
+  const { current_page, total_pages } = meta.pagination;
 
   return {
     detail,

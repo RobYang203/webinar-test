@@ -9,14 +9,19 @@ import { logoutAction } from 'actions/creators/auth';
 
 const useStyles = createUseStyles(() => ({
   root: {
+    top: 0,
+    left: 0,
+    height: 100,
+    background: '#fff',
+    width: 'calc(100vw - 184px)',
+    position: 'fixed',
     padding: `0 92px`,
     display: 'flex',
+    alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'nowrap',
     justifyContent: 'space-around',
-    alignItems: 'center',
     borderBottom: '1px solid #EDEDED',
-    height: 100,
   },
   menu: {
     flex: 1,

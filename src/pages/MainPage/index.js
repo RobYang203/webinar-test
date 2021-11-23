@@ -4,14 +4,19 @@ import Introduction from './components/Introduction';
 import Webinar from './components/Webinar';
 import Hot from './components/Hot';
 import RegisterForm from './components/RegisterForm';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Webinars from './components/Webinars';
+import {
+  getWebinarsAction,
+  initialWebinarAction,
+} from 'actions/creators/webinar';
 
 const useStyles = createUseStyles(() => {
   return {
     root: {
       width: '100vw',
-      height: '100vh',
+      height: 'calc(100vh - 100px)',
+      paddingTop: 100,
     },
     webinars: {
       background: '#F2F2F2',
@@ -28,19 +33,35 @@ const useStyles = createUseStyles(() => {
 const selector = ({ auth, webinar }) => {
   return {
     isAuth: auth.isAuth,
+    userId: auth.user.id,
     webinars: webinar.list,
   };
 };
 
 function MainPage() {
   const classes = useStyles();
-  const { isAuth, webinars } = useSelector(selector);
+  const dispatch = useDispatch();
 
-  useEffect(()=>{
+  const { isAuth, userId, webinars } = useSelector(selector);
+
+  const handleGetWebinars = (page) => {
+    dispatch(
+      getWebinarsAction({
+        page,
+        author: isAuth ? userId : undefined,
+      })
+    );
+  };
+
+  useEffect(() => {
     //refresh webinar
-  },[]);
+    handleGetWebinars(webinars.currentPage);
 
-  
+    return () => {
+      dispatch(initialWebinarAction());
+    };
+  }, [isAuth]);
+
   return (
     <div className={classes.root}>
       <main>
@@ -50,7 +71,11 @@ function MainPage() {
             market experience, we believe that a solid FX trading education is
             vital to your success as a trader.'
         />
-        <Webinars {...webinars} isAuth={isAuth} />
+        <Webinars
+          {...webinars}
+          isAuth={isAuth}
+          handleGetWebinars={handleGetWebinars}
+        />
         <Hot
           title='Meet Your Host - Alistair Schultz'
           content={

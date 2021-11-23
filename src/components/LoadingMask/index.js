@@ -37,14 +37,19 @@ function LoadingMask() {
   const classes = useStyles();
   const fetchingTypes = useSelector(({ setting }) => setting.fetchingTypes);
 
-  if(isEmpty(fetchingTypes)) return null;
-  
-  return (
-    <>
-      <div className={classes.root}></div>
-      <div className={classes.mask}></div>
-    </>
-  );
+  if (isEmpty(fetchingTypes)) {
+    document.body.style.overflow = 'auto';
+    return null;
+  } else {
+    document.body.style.overflow = 'hidden';
+
+    return (
+      <>
+        <div className={classes.root}></div>
+        <div className={classes.mask}></div>
+      </>
+    );
+  }
 }
 
 export default LoadingMask;
