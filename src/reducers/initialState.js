@@ -2,7 +2,7 @@ export const settingState = {
   fetchingTypes: {},
 };
 
-export const userState = {
+export const authState = {
   isAuth: false,
   token: '',
   user: {},
