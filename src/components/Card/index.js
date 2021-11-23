@@ -5,7 +5,7 @@ import { createUseStyles, JssProvider } from 'react-jss';
 import classNames from 'classnames';
 
 const useStyles = createUseStyles(
-  () => {
+  (theme) => {
     return {
       root: {
         display: 'flex',

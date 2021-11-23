@@ -72,7 +72,7 @@ function Hot({ title, content, videoUrl }) {
 
 Hot.propTypes = {
   title: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  content: PropTypes.element.isRequired,
   videoUrl: PropTypes.string.isRequired,
 };
 

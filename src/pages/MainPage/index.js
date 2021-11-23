@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createUseStyles } from 'react-jss';
 import Introduction from './components/Introduction';
 import Webinar from './components/Webinar';
 import Hot from './components/Hot';
 import RegisterForm from './components/RegisterForm';
+import { useSelector } from 'react-redux';
+import Webinars from './components/Webinars';
 
 const useStyles = createUseStyles(() => {
   return {
@@ -23,8 +25,22 @@ const useStyles = createUseStyles(() => {
   };
 });
 
+const selector = ({ user, webinar }) => {
+  return {
+    isAuth: user.isAuth,
+    webinars: webinar.list,
+  };
+};
+
 function MainPage() {
   const classes = useStyles();
+  const { isAuth, webinars } = useSelector(selector);
+
+  useEffect(()=>{
+    //refresh webinar
+  },[]);
+
+  
   return (
     <div className={classes.root}>
       <main>
@@ -34,15 +50,7 @@ function MainPage() {
             market experience, we believe that a solid FX trading education is
             vital to your success as a trader.'
         />
-        <section className={classes.webinars}>
-          <Webinar
-            title='31/10/2019'
-            subTitle='A structured approach to deciphering FX & Gold sentiment'
-            content='Market scan across FX & Gold to determine sentiment with
-                    accuracy.'
-            time='7pm-8:30pm EST'
-          />
-        </section>
+        <Webinars {...webinars} isAuth={isAuth} />
         <Hot
           title='Meet Your Host - Alistair Schultz'
           content={
@@ -63,7 +71,7 @@ function MainPage() {
           }
           videoUrl='https://www.youtube.com/embed/DWDVNjqaX4o'
         />
-        <RegisterForm />
+        <RegisterForm {...webinars} isAuth={isAuth} />
       </main>
     </div>
   );

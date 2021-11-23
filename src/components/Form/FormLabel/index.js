@@ -31,6 +31,7 @@ function FormLabel({
   labelText,
   errorMsg,
   controlId,
+  showErrorMsg,
   control: Control,
   ...props
 }) {
@@ -40,7 +41,7 @@ function FormLabel({
       <label htmlFor={controlId} className={classes.label}>
         {labelText}
       </label>
-      {Boolean(errorMsg) && <div className={classes.error}>{errorMsg}</div>}
+      {showErrorMsg && <div className={classes.error}>{errorMsg}</div>}
       {isValidElement(Control) ? (
         cloneElement(Control, props)
       ) : (

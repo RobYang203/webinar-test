@@ -1,11 +1,12 @@
 import React from 'react';
-import { FaChevronDown } from 'react-icons/fa';
 import { ReactComponent as Logo } from 'assets/logo.svg';
 import { createUseStyles } from 'react-jss';
 import MenuItem from '../MenuItem';
-import Button from 'components/Button';
+import { useSelector } from 'react-redux';
+import AuthButtonGroup from '../AuthButtonGroup';
+import { useHistory } from 'react-router';
 
-const useStyles = createUseStyles((theme) => ({
+const useStyles = createUseStyles(() => ({
   root: {
     padding: `0 92px`,
     display: 'flex',
@@ -49,8 +50,29 @@ const useStyles = createUseStyles((theme) => ({
   },
 }));
 
+const selector = ({ user }) => {
+  return {
+    isAuth: user.isAuth,
+  };
+};
+
 function TopBar() {
   const classes = useStyles();
+  const history = useHistory();
+  const { isAuth } = useSelector(selector);
+
+  const onLoginClick = () => {
+    history.push('/login');
+  };
+
+  const onLogoutClick = () => {
+    console.log("logout")
+  };
+
+  const onRegisteredClick = () => {
+    history.push('/registered');
+  };
+
   return (
     <header className={classes.root}>
       <section className={classes.icon}>
@@ -64,12 +86,12 @@ function TopBar() {
         <MenuItem text='Partners' />
       </section>
       <section className={classes.buttonGroup}>
-        <Button className={classes.button} variant='outlined' color='primary'>
-          Login
-        </Button>
-        <Button className={classes.button} variant='contained' color='primary'>
-          Logout
-        </Button>
+        <AuthButtonGroup
+          isAuth={isAuth}
+          onLoginClick={onLoginClick}
+          onLogoutClick={onLogoutClick}
+          onRegisteredClick={onRegisteredClick}
+        />
       </section>
     </header>
   );
