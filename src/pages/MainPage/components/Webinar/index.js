@@ -124,10 +124,9 @@ function Webinar({
 }
 
 Webinar.propTypes = {
+  created_at: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  subTitle: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  time: PropTypes.string.isRequired,
   onRegisterClick: PropTypes.func.isRequired,
   onWebinarClick: PropTypes.func.isRequired,
 };

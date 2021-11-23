@@ -4,7 +4,7 @@ import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
 
 const useStyles = createUseStyles(
-  () => {
+  (theme) => {
     return {
       root: {
         order: -1,

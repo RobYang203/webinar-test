@@ -63,7 +63,13 @@ function Select({
         onChange={onChange}
         className={classes.select}>
         {data.map((item) => {
-          return <option value={item[valueOfKey]}>{item[displayOfKey]}</option>;
+          return (
+            <option
+              key={`select-option-${item[valueOfKey]}`}
+              value={item[valueOfKey]}>
+              {item[displayOfKey]}
+            </option>
+          );
         })}
       </select>
     </div>

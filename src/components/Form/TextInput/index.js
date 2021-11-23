@@ -21,9 +21,15 @@ const useStyles = createUseStyles(
   { name: 'text-input' }
 );
 
-function TextInput({ className, ...props }) {
-  const classes = useStyles(props);
-  return <input className={classNames(className, classes.root)} {...props} />;
+function TextInput({ className, maxWidth, value, ...props }) {
+  const classes = useStyles({ maxWidth });
+  return (
+    <input
+      {...props}
+      value={value ?? ''}
+      className={classNames(className, classes.root)}
+    />
+  );
 }
 
 TextInput.propTypes = {
