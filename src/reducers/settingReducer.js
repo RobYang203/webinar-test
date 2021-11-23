@@ -15,7 +15,7 @@ const stopFetching = (setting, payload) => {
   return { ...setting, fetchingTypes: { ...fetchingTypes } };
 };
 
-export default function routeReducer(
+export default function settingReducer(
   setting = settingState,
   { type, payload }
 ) {
