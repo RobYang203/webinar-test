@@ -8,8 +8,9 @@ import Webinars from 'components/Webinars';
 import {
   addUserWebinarAction,
   deleteUserWebinarAction,
-  getWebinarsAction,
+  getNextWebinarsAction,
   initialWebinarAction,
+  refreshWebinarsAction,
 } from 'actions/creators/webinar';
 
 const useStyles = createUseStyles(() => {
@@ -36,9 +37,9 @@ function MainPage() {
 
   const { isAuth, userId, webinars } = useSelector(selector);
 
-  const handleGetWebinars = (page) => {
+  const handleGetNextWebinars = (page) => {
     dispatch(
-      getWebinarsAction({
+      getNextWebinarsAction({
         page,
         author: userId,
       })
@@ -59,11 +60,9 @@ function MainPage() {
 
   useEffect(() => {
     //refresh webinar
-    handleGetWebinars(webinars.currentPage);
-
-    return () => {
-      dispatch(initialWebinarAction());
-    };
+    dispatch(refreshWebinarsAction({
+      author: userId,
+    }));
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth, userId]);
@@ -80,7 +79,7 @@ function MainPage() {
         <Webinars
           {...webinars}
           isAuth={isAuth}
-          handleGetWebinars={handleGetWebinars}
+          handleGetNextWebinars={handleGetNextWebinars}
           handleDeleteWebinar={handleDeleteWebinar}
         />
         <Hot

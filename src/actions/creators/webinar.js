@@ -6,9 +6,20 @@ export const initialWebinarAction = () => {
   };
 };
 
-export const getWebinarsAction = (payload) => {
+export const refreshWebinarsAction = (payload) => {
   return {
-    type: types.GET_WEBINARS,
+    type: types.REFRESH_WEBINARS,
+    payload: {
+      ...payload,
+      page: 1,
+      per_page: 12,
+    },
+  };
+};
+
+export const getNextWebinarsAction = (payload) => {
+  return {
+    type: types.GET_NEXT_WEBINARS,
     payload: {
       ...payload,
       per_page: 12,

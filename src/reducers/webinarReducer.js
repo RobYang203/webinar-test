@@ -1,30 +1,32 @@
 import types from 'actions/types';
 import { webinarState } from './initialState';
-//_SUCCESS
-//_ERROR
 
-const setWebinar = ({ list, detail }, { data, meta }) => {
+const settingWebinars = ({ list, detail }, { data, meta }, isRefresh) => {
   const { current_page, total_pages } = meta.pagination;
+
+  const originData = isRefresh ? [] : list.data;
+
 
   return {
     detail,
     list: {
       hasMore: current_page <= total_pages,
       currentPage: current_page,
-      data: [...list.data, ...data],
+      data: [...originData , ...data],
     },
   };
 };
 
 const changeUserWebinarFavourited = (
   { list, detail },
-  targetId,
+  { targetId },
   favourited
 ) => {
-  const index = list.data.findIndex(({ id }) => targetId === id);
+  const newData = [...list.data];
+  const index = newData.findIndex(({ id }) => targetId === id);
 
-  list.data[index] = {
-    ...list.data[index],
+  newData[index] = {
+    ...newData[index],
     favourited,
   };
 
@@ -32,7 +34,7 @@ const changeUserWebinarFavourited = (
     ...detail,
     list: {
       ...list,
-      data: [...list.data],
+      data: newData,
     },
   };
 };
@@ -42,19 +44,23 @@ export default function webinarReducer(
   { type, payload }
 ) {
   switch (type) {
-    case types.GET_WEBINARS_SUCCESS:
-      return setWebinar(webinar, payload);
+    case types.REFRESH_WEBINARS_SUCCESS:
+      return settingWebinars(webinar, payload, true);
+    case types.GET_NEXT_WEBINARS_SUCCESS:
+      return settingWebinars(webinar, payload, false);
+    case types.ADD_USER_WEBINAR_SUCCESS:
+      return changeUserWebinarFavourited(webinar, payload, true);
+    case types.DELETE_USER_WEBINAR_SUCCESS:
+      return changeUserWebinarFavourited(webinar, payload, false);
     case types.INITIAL_WEBINARS:
       return webinarState;
-    case types.ADD_USER_WEBINAR_SUCCESS:
-      return changeUserWebinarFavourited(webinar, payload.ids[0], true);
-    case types.DELETE_USER_WEBINAR_SUCCESS:
-      return changeUserWebinarFavourited(webinar, payload.id, false);
     case types.ADD_USER_WEBINAR:
     case types.DELETE_USER_WEBINAR:
     case types.DELETE_USER_WEBINAR_ERROR:
-    case types.GET_WEBINARS_ERROR:
-    case types.GET_WEBINARS:
+    case types.GET_NEXT_WEBINARS_ERROR:
+    case types.GET_NEXT_WEBINARS:
+    case types.REFRESH_WEBINARS_ERROR:
+    case types.REFRESH_WEBINARS:
     default:
       return webinar;
   }
