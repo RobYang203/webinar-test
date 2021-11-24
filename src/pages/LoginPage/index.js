@@ -18,6 +18,8 @@ const useStyles = createUseStyles(
     return {
       root: {
         ...commonStyles.pageRootStyle,
+      },
+      container: {
         padding: `6.8rem`,
       },
       card: {
@@ -106,45 +108,47 @@ function LoginPage() {
 
   return (
     <form id='login' className={classes.root}>
-      <Card center className={classes.card} roundSize='large'>
-        <CardHeader className={classes.header}>
-          <h2 className={classes.title}>LOGIN ACY SECURITIES</h2>
-        </CardHeader>
-        <CardBody className={classes.body}>
-          <FormLabel
-            maxWidth
-            labelText='Email'
-            control={TextInput}
-            value={form.email}
-            errorMsg={errors.email}
-            onChange={onFormChange('email')}
-            className={classes.formControl}
-            showErrorMsg={form.email !== null}
-          />
-          <FormLabel
-            maxWidth
-            type='password'
-            labelText='Password'
-            control={TextInput}
-            value={form.password}
-            errorMsg={errors.password}
-            className={classes.formControl}
-            onChange={onFormChange('password')}
-            showErrorMsg={form.password !== null}
-          />
-        </CardBody>
-        <CardFooter className={classes.footer}>
-          <Button
-            maxWidth
-            color='primary'
-            variant='contained'
-            disabled={!isValidate}
-            className={classes.button}
-            onClick={onLoginCLick}>
-            LOGIN
-          </Button>
-        </CardFooter>
-      </Card>
+      <div className={classes.container}>
+        <Card center className={classes.card} roundSize='large'>
+          <CardHeader className={classes.header}>
+            <h2 className={classes.title}>LOGIN ACY SECURITIES</h2>
+          </CardHeader>
+          <CardBody className={classes.body}>
+            <FormLabel
+              maxWidth
+              labelText='Email'
+              control={TextInput}
+              value={form.email}
+              errorMsg={errors.email}
+              onChange={onFormChange('email')}
+              className={classes.formControl}
+              showErrorMsg={form.email !== null}
+            />
+            <FormLabel
+              maxWidth
+              type='password'
+              labelText='Password'
+              control={TextInput}
+              value={form.password}
+              errorMsg={errors.password}
+              className={classes.formControl}
+              onChange={onFormChange('password')}
+              showErrorMsg={form.password !== null}
+            />
+          </CardBody>
+          <CardFooter className={classes.footer}>
+            <Button
+              maxWidth
+              color='primary'
+              variant='contained'
+              disabled={!isValidate}
+              className={classes.button}
+              onClick={onLoginCLick}>
+              LOGIN
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
     </form>
   );
 }

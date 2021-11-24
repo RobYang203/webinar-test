@@ -50,3 +50,9 @@ export const getWebinarDetailAction = (payload) => {
     payload,
   };
 };
+
+export const initialWebinarDetailAction = () => {
+  return {
+    type: types.INITIAL_WEBINAR_DETAIL,
+  };
+};

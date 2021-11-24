@@ -53,8 +53,10 @@ export default function webinarReducer(
       return changeUserWebinarFavourited(webinar, payload, false);
     case types.GET_WEBINAR_DETAIL_SUCCESS:
       return { ...webinar, detail: { ...payload } };
+    case types.INITIAL_WEBINAR_DETAIL:
+      return { ...webinar, detail: {} };
     case types.INITIAL_WEBINARS:
-      return webinarState;
+      return { ...webinar, list: { ...webinarState.list } };
     case types.GET_WEBINAR_DETAIL:
     case types.GET_WEBINAR_DETAIL_ERROR:
     case types.ADD_USER_WEBINAR:

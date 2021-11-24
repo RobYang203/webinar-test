@@ -5,6 +5,7 @@ export const syncActionTypes = [
   'STOP_FETCHING',
   'SEND_MESSAGE',
   'INITIAL_WEBINARS',
+  'INITIAL_WEBINAR_DETAIL'
 ];
 
 export const basicAsyncActionTypes = [
