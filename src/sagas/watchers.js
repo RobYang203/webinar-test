@@ -6,7 +6,6 @@ import {
   deleteUserWebinarSaga,
   getNextWebinarsSaga,
   getWebinarDetailSaga,
-  refreshWebinarsSaga,
 } from './webinarSaga';
 
 //auth
@@ -23,10 +22,6 @@ export function* watchLogoutSaga() {
 }
 
 //webinars
-export function* watchGetRefreshWebinarsSaga() {
-  yield takeLatest(types.REFRESH_WEBINARS, refreshWebinarsSaga);
-}
-
 export function* watchGetNextWebinarsSaga() {
   yield takeLatest(types.GET_NEXT_WEBINARS, getNextWebinarsSaga);
 }

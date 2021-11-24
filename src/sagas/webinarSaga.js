@@ -34,37 +34,6 @@ export function* getNextWebinarsSaga({ payload }) {
   }
 }
 
-//REFRESH_WEBINARS
-const OKRefreshWebinars = (payload) => {
-  return {
-    type: types.REFRESH_WEBINARS_SUCCESS,
-    payload,
-  };
-};
-
-const ErrRefreshWebinars = (message) => {
-  return {
-    type: types.REFRESH_WEBINARS_SUCCESS,
-    globalMessage: {
-      status: 'error',
-      text: message,
-    },
-  };
-};
-
-export function* refreshWebinarsSaga({ payload }) {
-  try {
-    const token = yield select(({ auth }) => auth.token);
-    const { data } = yield call(getPostsResult, { token, ...payload });
-
-    yield put(OKRefreshWebinars(data));
-  } catch (error) {
-    const message = error.response?.data?.data?.message || error.message;
-
-    yield put(ErrRefreshWebinars(message));
-  }
-}
-
 //ADD_USER_WEBINAR
 const OKAddWebinar = (payload) => {
   return {

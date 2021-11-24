@@ -5,13 +5,13 @@ export const syncActionTypes = [
   'STOP_FETCHING',
   'SEND_MESSAGE',
   'INITIAL_WEBINARS',
+  'INITIAL_WEBINAR_DETAIL'
 ];
 
 export const basicAsyncActionTypes = [
   'LOGIN',
   'CHECK_USER_LOGIN',
   'LOGOUT',
-  'REFRESH_WEBINARS',
   'GET_NEXT_WEBINARS',
   'ADD_USER_WEBINAR',
   'DELETE_USER_WEBINAR',

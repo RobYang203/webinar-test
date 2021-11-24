@@ -1,4 +1,4 @@
-import { getWebinarDetailAction } from 'actions/creators/webinar';
+import { getWebinarDetailAction, initialWebinarDetailAction } from 'actions/creators/webinar';
 import Introduction from 'components/Introduction';
 import React, { useEffect } from 'react';
 import { createUseStyles } from 'react-jss';
@@ -32,8 +32,13 @@ function WebinarDetailPage() {
         id: params.id,
       })
     );
+
+    return ()=>{
+      dispatch(initialWebinarDetailAction());
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div className={classes.root}>
       <Introduction

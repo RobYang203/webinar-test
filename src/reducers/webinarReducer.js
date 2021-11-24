@@ -1,17 +1,15 @@
 import types from 'actions/types';
 import { webinarState } from './initialState';
 
-const settingWebinars = ({ list, detail }, { data, meta }, isRefresh) => {
+const settingWebinars = ({ list, detail }, { data, meta }) => {
   const { current_page, total_pages } = meta.pagination;
-
-  const originData = isRefresh ? [] : list.data;
 
   return {
     detail,
     list: {
       hasMore: current_page <= total_pages,
       currentPage: current_page,
-      data: [...originData, ...data],
+      data: [...list.data, ...data],
     },
   };
 };
@@ -43,18 +41,18 @@ export default function webinarReducer(
   { type, payload }
 ) {
   switch (type) {
-    case types.REFRESH_WEBINARS_SUCCESS:
-      return settingWebinars(webinar, payload, true);
     case types.GET_NEXT_WEBINARS_SUCCESS:
-      return settingWebinars(webinar, payload, false);
+      return settingWebinars(webinar, payload);
     case types.ADD_USER_WEBINAR_SUCCESS:
       return changeUserWebinarFavourited(webinar, payload, true);
     case types.DELETE_USER_WEBINAR_SUCCESS:
       return changeUserWebinarFavourited(webinar, payload, false);
     case types.GET_WEBINAR_DETAIL_SUCCESS:
       return { ...webinar, detail: { ...payload } };
+    case types.INITIAL_WEBINAR_DETAIL:
+      return { ...webinar, detail: {} };
     case types.INITIAL_WEBINARS:
-      return webinarState;
+      return { ...webinar, list: { ...webinarState.list } };
     case types.GET_WEBINAR_DETAIL:
     case types.GET_WEBINAR_DETAIL_ERROR:
     case types.ADD_USER_WEBINAR:
@@ -62,8 +60,6 @@ export default function webinarReducer(
     case types.DELETE_USER_WEBINAR_ERROR:
     case types.GET_NEXT_WEBINARS_ERROR:
     case types.GET_NEXT_WEBINARS:
-    case types.REFRESH_WEBINARS_ERROR:
-    case types.REFRESH_WEBINARS:
     default:
       return webinar;
   }
