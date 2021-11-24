@@ -6,13 +6,12 @@ const settingWebinars = ({ list, detail }, { data, meta }, isRefresh) => {
 
   const originData = isRefresh ? [] : list.data;
 
-
   return {
     detail,
     list: {
       hasMore: current_page <= total_pages,
       currentPage: current_page,
-      data: [...originData , ...data],
+      data: [...originData, ...data],
     },
   };
 };
@@ -52,8 +51,12 @@ export default function webinarReducer(
       return changeUserWebinarFavourited(webinar, payload, true);
     case types.DELETE_USER_WEBINAR_SUCCESS:
       return changeUserWebinarFavourited(webinar, payload, false);
+    case types.GET_WEBINAR_DETAIL_SUCCESS:
+      return { ...webinar, detail: { ...payload } };
     case types.INITIAL_WEBINARS:
       return webinarState;
+    case types.GET_WEBINAR_DETAIL:
+    case types.GET_WEBINAR_DETAIL_ERROR:
     case types.ADD_USER_WEBINAR:
     case types.DELETE_USER_WEBINAR:
     case types.DELETE_USER_WEBINAR_ERROR:

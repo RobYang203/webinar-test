@@ -1,7 +1,7 @@
 import { call, put, select } from '@redux-saga/core/effects';
 import types from 'actions/types';
 import { deleteFavouritedResult, insertFavouriteResult } from 'apis/favourited';
-import { getPostsResult } from 'apis/post';
+import { getPostResult, getPostsResult } from 'apis/post';
 
 //GET_NEXT_WEBINARS
 const OKGetNextWebinars = (payload) => {
@@ -132,5 +132,36 @@ export function* deleteUserWebinarSaga({ payload }) {
     const message = error.response?.data?.data?.message || error.message;
 
     yield put(ErrDeleteWebinar(message));
+  }
+}
+
+//GET_WEBINAR_DETAIL
+const OKGetDetail = (payload) => {
+  return {
+    type: types.GET_WEBINAR_DETAIL_SUCCESS,
+    payload,
+  };
+};
+
+const ErrGetDetail = (message) => {
+  return {
+    type: types.GET_WEBINAR_DETAIL_ERROR,
+    globalMessage: {
+      status: 'error',
+      text: message,
+    },
+  };
+};
+
+export function* getWebinarDetailSaga({ payload }) {
+  try {
+    const token = yield select(({ auth }) => auth.token);
+    const { data } = yield call(getPostResult, { token, ...payload });
+
+    yield put(OKGetDetail(data.data));
+  } catch (error) {
+    const message = error.response?.data?.data?.message || error.message;
+
+    yield put(ErrGetDetail(message));
   }
 }

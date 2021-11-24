@@ -5,16 +5,13 @@ import Webinars from 'components/Webinars';
 import {
   deleteUserWebinarAction,
   getNextWebinarsAction,
-  initialWebinarAction,
   refreshWebinarsAction,
 } from 'actions/creators/webinar';
 
-const useStyles = createUseStyles(() => {
+const useStyles = createUseStyles(({ commonStyles }) => {
   return {
     root: {
-      width: '100vw',
-      height: 'calc(100vh - 100px)',
-      paddingTop: 100,
+      ...commonStyles.pageRootStyle,
     },
   };
 });
