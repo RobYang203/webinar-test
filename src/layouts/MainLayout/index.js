@@ -7,6 +7,7 @@ import RegisteredPage from 'pages/RegisteredPage';
 import NotFoundPage from 'pages/NotFoundPage';
 import MainPage from 'pages/MainPage';
 import LoginPage from 'pages/LoginPage';
+import PrivateRoute from 'components/PrivateRoute';
 
 function MainLayout() {
   const getRoutePath = useCreateRoutePath();
@@ -20,7 +21,7 @@ function MainLayout() {
           path={getRoutePath('/webinar/:id')}
           component={WebinarDetailPage}
         />
-        <Route path={getRoutePath('/registered')} component={RegisteredPage} />
+        <PrivateRoute path={getRoutePath('/registered')} component={RegisteredPage} />
         <Route path={getRoutePath('/login')} component={LoginPage} />
         <Route path='/404' component={NotFoundPage} />
         <Route path='/*' component={() => <Redirect to='/404' />} />
