@@ -1,7 +1,75 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { createUseStyles } from 'react-jss';
+import { useDispatch, useSelector } from 'react-redux';
+import Webinars from 'components/Webinars';
+import {
+  deleteUserWebinarAction,
+  getWebinarsAction,
+  initialWebinarAction,
+} from 'actions/creators/webinar';
+
+const useStyles = createUseStyles(() => {
+  return {
+    root: {
+      width: '100vw',
+      height: 'calc(100vh - 100px)',
+      paddingTop: 100,
+    },
+  };
+});
+
+const selector = ({ auth, webinar }) => {
+  return {
+    isAuth: auth.isAuth,
+    userId: auth.user.id,
+    webinars: webinar.list,
+  };
+};
 
 function RegisteredPage() {
-  return <div>Registered page</div>;
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const { isAuth, userId, webinars } = useSelector(selector);
+
+  const handleGetWebinars = (page) => {
+    dispatch(
+      getWebinarsAction({
+        page,
+        favourited: 1,
+        author: userId,
+      })
+    );
+  };
+
+  const handleDeleteWebinar = (id) => {
+    dispatch(deleteUserWebinarAction({ id }));
+  };
+
+  useEffect(() => {
+    if (isAuth) handleGetWebinars(webinars.currentPage);
+
+    return () => {
+      dispatch(initialWebinarAction());
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuth]);
+
+  return (
+    <div className={classes.root}>
+      <main>
+        <Webinars
+          isAuth={true}
+          hasMore={webinars.hasMore}
+          currentPage={Webinars.currentPage}
+          handleGetWebinars={handleGetWebinars}
+          handleDeleteWebinar={handleDeleteWebinar}
+          data={webinars.data.filter(({favourited})=> favourited === true)}
+        />
+      </main>
+    </div>
+  );
 }
 
 export default RegisteredPage;

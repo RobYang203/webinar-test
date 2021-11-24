@@ -62,9 +62,7 @@ function Hot({ title, content, videoUrl }) {
           height='338'
           src={videoUrl}
           title='YouTube video player'
-          frameBorder='0'
-          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-          allowFullScreen></iframe>
+          frameBorder='0'></iframe>
       </div>
     </section>
   );

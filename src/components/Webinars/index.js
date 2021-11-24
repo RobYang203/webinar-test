@@ -1,9 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Webinar from '../Webinar';
+import Webinar from './components/Webinar';
 import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { deleteUserWebinarAction } from 'actions/creators/webinar';
 
 const useStyles = createUseStyles(
   ({ palette }) => {
@@ -32,11 +34,11 @@ const useStyles = createUseStyles(
   { name: 'webinars' }
 );
 
-function Webinars({ data, hasMore, isAuth }) {
+function Webinars({ data, hasMore, currentPage, isAuth, handleGetWebinars , handleDeleteWebinar }) {
   const classes = useStyles();
   const history = useHistory();
 
-  const onRegisterClick = (id) => {
+  const onRegisterNowClick = () => {
     if (isAuth) {
       window.scrollTo(0, document.body.scrollHeight);
     } else {
@@ -44,16 +46,25 @@ function Webinars({ data, hasMore, isAuth }) {
     }
   };
 
+  const onRegisteredClick = (id) => {
+    handleDeleteWebinar(id)
+
+  };
+
   const onWebinarClick = (id) => {
     history.push(`/webinar/${id}`);
+  };
+
+  const nextWebinars = () => {
+    handleGetWebinars(currentPage + 1);
   };
 
   return (
     <section id='scrollable' className={classes.root}>
       <InfiniteScroll
-        next={() => console.log('next')}
+        next={nextWebinars}
         hasMore={hasMore}
-        scrollThreshold={0.7}
+        scrollThreshold={0.8}
         dataLength={data.length}
         className={classes.content}
         scrollableTarget='scrollable'
@@ -64,7 +75,8 @@ function Webinars({ data, hasMore, isAuth }) {
               {...item}
               key={`webinar-${item.id}`}
               isRegistered={isAuth && item.favourited}
-              onRegisterClick={onRegisterClick}
+              onRegisterNowClick={onRegisterNowClick}
+              onRegisteredClick={onRegisteredClick}
               onWebinarClick={onWebinarClick}
             />
           );
@@ -78,6 +90,9 @@ Webinars.propTypes = {
   data: PropTypes.array.isRequired,
   hasMore: PropTypes.bool.isRequired,
   isAuth: PropTypes.bool.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  handleGetWebinars: PropTypes.func.isRequired,
+  handleDeleteWebinar: PropTypes.func.isRequired,
 };
 
 export default Webinars;

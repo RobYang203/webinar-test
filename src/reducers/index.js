@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import setting from './settingReducer';
-import user from './userReducer';
+import auth from './authReducer';
 import webinar from './webinarReducer';
 
 const appReducer = combineReducers({
-  user,
+  auth,
   setting,
   webinar,
 });

@@ -2,20 +2,26 @@ import React from 'react';
 import { ReactComponent as Logo } from 'assets/logo.svg';
 import { createUseStyles } from 'react-jss';
 import MenuItem from '../MenuItem';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AuthButtonGroup from '../AuthButtonGroup';
 import { useHistory } from 'react-router';
+import { logoutAction } from 'actions/creators/auth';
 
 const useStyles = createUseStyles(() => ({
   root: {
+    top: 0,
+    left: 0,
+    height: 100,
+    background: '#fff',
+    width: 'calc(100vw - 184px)',
+    position: 'fixed',
     padding: `0 92px`,
     display: 'flex',
+    alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'nowrap',
     justifyContent: 'space-around',
-    alignItems: 'center',
     borderBottom: '1px solid #EDEDED',
-    height: 100,
   },
   menu: {
     flex: 1,
@@ -50,15 +56,17 @@ const useStyles = createUseStyles(() => ({
   },
 }));
 
-const selector = ({ user }) => {
+const selector = ({ auth }) => {
   return {
-    isAuth: user.isAuth,
+    isAuth: auth.isAuth,
   };
 };
 
 function TopBar() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const { isAuth } = useSelector(selector);
 
   const onLoginClick = () => {
@@ -66,7 +74,7 @@ function TopBar() {
   };
 
   const onLogoutClick = () => {
-    console.log("logout")
+    dispatch(logoutAction());
   };
 
   const onRegisteredClick = () => {

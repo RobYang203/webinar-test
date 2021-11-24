@@ -9,6 +9,7 @@ import CardBody from 'components/Card/CardBody';
 import CardFooter from 'components/Card/CardFooter';
 import { format } from 'date-fns';
 import addDays from 'date-fns/addDays';
+import WebinarStateButton from './components/WebinarStateButton';
 
 const useStyles = createUseStyles(
   ({ palette }) => {
@@ -83,7 +84,8 @@ function Webinar({
   created_at,
   isRegistered,
   onWebinarClick,
-  onRegisterClick,
+  onRegisteredClick,
+  onRegisterNowClick,
 }) {
   const classes = useStyles();
   return (
@@ -102,13 +104,13 @@ function Webinar({
         </CardBody>
         <CardFooter className={classes.footer}>
           <div className={classes.buttonGroup}>
-            <Button
-              color='info'
-              disabled={isRegistered}
+            <WebinarStateButton
+              id={id}
+              isRegistered={isRegistered}
               className={classes.button}
-              onClick={() => onRegisterClick(id)}>
-              {isRegistered ? 'Registered' : ' Register Now'}
-            </Button>
+              onRegisteredClick={onRegisteredClick}
+              onRegisterNowClick={onRegisterNowClick}
+            />
             <Button
               variant='icon'
               color='info'
@@ -127,7 +129,8 @@ Webinar.propTypes = {
   created_at: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  onRegisterClick: PropTypes.func.isRequired,
+  onRegisteredClick: PropTypes.func.isRequired,
+  onRegisterNowClick: PropTypes.func.isRequired,
   onWebinarClick: PropTypes.func.isRequired,
 };
 

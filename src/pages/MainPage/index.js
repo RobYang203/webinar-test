@@ -1,46 +1,73 @@
 import React, { useEffect } from 'react';
 import { createUseStyles } from 'react-jss';
 import Introduction from './components/Introduction';
-import Webinar from './components/Webinar';
 import Hot from './components/Hot';
 import RegisterForm from './components/RegisterForm';
-import { useSelector } from 'react-redux';
-import Webinars from './components/Webinars';
+import { useDispatch, useSelector } from 'react-redux';
+import Webinars from 'components/Webinars';
+import {
+  addUserWebinarAction,
+  deleteUserWebinarAction,
+  getWebinarsAction,
+  initialWebinarAction,
+} from 'actions/creators/webinar';
 
 const useStyles = createUseStyles(() => {
   return {
     root: {
       width: '100vw',
-      height: '100vh',
-    },
-    webinars: {
-      background: '#F2F2F2',
-      height: 780,
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      flexWrap: 'wrap',
-      padding: `57px 92px 72px 94px`,
+      height: 'calc(100vh - 100px)',
+      paddingTop: 100,
     },
   };
 });
 
-const selector = ({ user, webinar }) => {
+const selector = ({ auth, webinar }) => {
   return {
-    isAuth: user.isAuth,
+    isAuth: auth.isAuth,
+    userId: auth.user.id,
     webinars: webinar.list,
   };
 };
 
 function MainPage() {
   const classes = useStyles();
-  const { isAuth, webinars } = useSelector(selector);
+  const dispatch = useDispatch();
 
-  useEffect(()=>{
+  const { isAuth, userId, webinars } = useSelector(selector);
+
+  const handleGetWebinars = (page) => {
+    dispatch(
+      getWebinarsAction({
+        page,
+        author: userId,
+      })
+    );
+  };
+
+  const handleRegisterWebinar = (id) => {
+    dispatch(
+      addUserWebinarAction({
+        ids: [id],
+      })
+    );
+  };
+
+  const handleDeleteWebinar = (id) => {
+    dispatch(deleteUserWebinarAction({ id }));
+  };
+
+  useEffect(() => {
     //refresh webinar
-  },[]);
+    handleGetWebinars(webinars.currentPage);
 
-  
+    return () => {
+      dispatch(initialWebinarAction());
+    };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuth, userId]);
+
   return (
     <div className={classes.root}>
       <main>
@@ -50,7 +77,12 @@ function MainPage() {
             market experience, we believe that a solid FX trading education is
             vital to your success as a trader.'
         />
-        <Webinars {...webinars} isAuth={isAuth} />
+        <Webinars
+          {...webinars}
+          isAuth={isAuth}
+          handleGetWebinars={handleGetWebinars}
+          handleDeleteWebinar={handleDeleteWebinar}
+        />
         <Hot
           title='Meet Your Host - Alistair Schultz'
           content={
@@ -71,7 +103,11 @@ function MainPage() {
           }
           videoUrl='https://www.youtube.com/embed/DWDVNjqaX4o'
         />
-        <RegisterForm {...webinars} isAuth={isAuth} />
+        <RegisterForm
+          {...webinars}
+          isAuth={isAuth}
+          handleRegisterClick={handleRegisterWebinar}
+        />
       </main>
     </div>
   );
