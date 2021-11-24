@@ -3,6 +3,7 @@ import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux';
 import Webinars from 'components/Webinars';
 import {
+  deleteUserWebinarAction,
   getWebinarsAction,
   initialWebinarAction,
 } from 'actions/creators/webinar';
@@ -13,12 +14,14 @@ const useStyles = createUseStyles(() => {
       width: '100vw',
       height: 'calc(100vh - 100px)',
       paddingTop: 100,
-    }
+    },
   };
 });
 
-const selector = ({ webinar }) => {
+const selector = ({ auth, webinar }) => {
   return {
+    isAuth: auth.isAuth,
+    userId: auth.user.id,
     webinars: webinar.list,
   };
 };
@@ -39,24 +42,30 @@ function RegisteredPage() {
     );
   };
 
+  const handleDeleteWebinar = (id) => {
+    dispatch(deleteUserWebinarAction({ id }));
+  };
+
   useEffect(() => {
-    //refresh webinar
-    handleGetWebinars(webinars.currentPage);
+    if (isAuth) handleGetWebinars(webinars.currentPage);
 
     return () => {
       dispatch(initialWebinarAction());
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuth, userId]);
+  }, [isAuth]);
 
   return (
     <div className={classes.root}>
       <main>
         <Webinars
-          {...webinars}
           isAuth={true}
+          hasMore={webinars.hasMore}
+          currentPage={Webinars.currentPage}
           handleGetWebinars={handleGetWebinars}
+          handleDeleteWebinar={handleDeleteWebinar}
+          data={webinars.data.filter(({favourited})=> favourited === true)}
         />
       </main>
     </div>

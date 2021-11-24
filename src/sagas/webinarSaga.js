@@ -86,10 +86,11 @@ const ErrDeleteWebinar = (message) => {
 export function* deleteUserWebinarSaga({ payload }) {
   try {
     const token = yield select(({ auth }) => auth.token);
-    yield call(deleteFavouriteResult, { token, payload });
-
+    
+    yield call(deleteFavouriteResult, { token, ...payload });
     yield put(OKDeleteWebinar(payload));
   } catch (error) {
+    console.log("🚀 ~ file: webinarSaga.js ~ line 93 ~ function*deleteUserWebinarSaga ~ error", error)
     const message = error.response?.data?.data?.message || error.message;
 
     yield put(ErrDeleteWebinar(message));

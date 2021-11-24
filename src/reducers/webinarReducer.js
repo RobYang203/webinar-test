@@ -16,8 +16,12 @@ const setWebinar = ({ list, detail }, { data, meta }) => {
   };
 };
 
-const changeUserWebinarFavourited = ({ list, detail }, { ids }, favourited) => {
-  const index = list.data.findIndex(({ id }) => ids[0] === id);
+const changeUserWebinarFavourited = (
+  { list, detail },
+  targetId,
+  favourited
+) => {
+  const index = list.data.findIndex(({ id }) => targetId === id);
 
   list.data[index] = {
     ...list.data[index],
@@ -43,9 +47,9 @@ export default function webinarReducer(
     case types.INITIAL_WEBINARS:
       return webinarState;
     case types.ADD_USER_WEBINAR_SUCCESS:
-      return changeUserWebinarFavourited(webinar, payload, true);
+      return changeUserWebinarFavourited(webinar, payload.ids[0], true);
     case types.DELETE_USER_WEBINAR_SUCCESS:
-      return changeUserWebinarFavourited(webinar, payload, false);
+      return changeUserWebinarFavourited(webinar, payload.id, false);
     case types.ADD_USER_WEBINAR:
     case types.DELETE_USER_WEBINAR:
     case types.DELETE_USER_WEBINAR_ERROR:

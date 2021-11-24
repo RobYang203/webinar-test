@@ -4,6 +4,8 @@ import { createUseStyles } from 'react-jss';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Webinar from './components/Webinar';
 import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { deleteUserWebinarAction } from 'actions/creators/webinar';
 
 const useStyles = createUseStyles(
   ({ palette }) => {
@@ -32,16 +34,21 @@ const useStyles = createUseStyles(
   { name: 'webinars' }
 );
 
-function Webinars({ data, hasMore, currentPage, isAuth, handleGetWebinars }) {
+function Webinars({ data, hasMore, currentPage, isAuth, handleGetWebinars , handleDeleteWebinar }) {
   const classes = useStyles();
   const history = useHistory();
 
-  const onRegisterClick = () => {
+  const onRegisterNowClick = () => {
     if (isAuth) {
       window.scrollTo(0, document.body.scrollHeight);
     } else {
       history.push('/login');
     }
+  };
+
+  const onRegisteredClick = (id) => {
+    handleDeleteWebinar(id)
+
   };
 
   const onWebinarClick = (id) => {
@@ -68,7 +75,8 @@ function Webinars({ data, hasMore, currentPage, isAuth, handleGetWebinars }) {
               {...item}
               key={`webinar-${item.id}`}
               isRegistered={isAuth && item.favourited}
-              onRegisterClick={onRegisterClick}
+              onRegisterNowClick={onRegisterNowClick}
+              onRegisteredClick={onRegisteredClick}
               onWebinarClick={onWebinarClick}
             />
           );
@@ -83,7 +91,8 @@ Webinars.propTypes = {
   hasMore: PropTypes.bool.isRequired,
   isAuth: PropTypes.bool.isRequired,
   currentPage: PropTypes.number.isRequired,
-  handleGetWebinars: PropTypes.func.isRequired
+  handleGetWebinars: PropTypes.func.isRequired,
+  handleDeleteWebinar: PropTypes.func.isRequired,
 };
 
 export default Webinars;

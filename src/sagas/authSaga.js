@@ -5,7 +5,7 @@ import {
   authEmailLoginResult,
   authLogoutResult,
 } from 'apis/auth';
-import { getUserToken, setUserToken } from 'utils';
+import { getUserToken, removeUserToken, setUserToken } from 'utils';
 
 //LOGIN
 const OKLogin = (payload) => {
@@ -47,26 +47,24 @@ const OKCheck = (payload) => {
   };
 };
 
-const ErrCheck = (message) => {
+const ErrCheck = () => {
   return {
     type: types.CHECK_USER_LOGIN_ERROR,
-    globalMessage: {
-      status: 'error',
-      text: message,
-    },
   };
 };
 
 export function* checkUserLoginSaga() {
   try {
     const token = getUserToken();
-    const { data } = yield call(authCheckMeResult, { token });
 
-    yield put(OKCheck({ ...data, token }));
+    if (!Boolean(token)) yield put(ErrCheck());
+    else {
+      const { data } = yield call(authCheckMeResult, { token });
+
+      yield put(OKCheck({ ...data, token }));
+    }
   } catch (error) {
-    const message = error.response?.data?.data?.message || error.message;
-
-    yield put(ErrCheck(message));
+    yield put(ErrCheck());
   }
 }
 
@@ -91,9 +89,11 @@ const ErrLogout = (message) => {
 export function* logoutSaga() {
   try {
     const token = yield select(({ auth }) => auth.token);
-    
+
     const { data } = yield call(authLogoutResult, { token });
 
+    removeUserToken();
+    
     yield put(OKLogout(data));
   } catch (error) {
     const message = error.response?.data?.data?.message || error.message;

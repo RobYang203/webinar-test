@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Webinars from 'components/Webinars';
 import {
   addUserWebinarAction,
+  deleteUserWebinarAction,
   getWebinarsAction,
   initialWebinarAction,
 } from 'actions/creators/webinar';
@@ -52,6 +53,10 @@ function MainPage() {
     );
   };
 
+  const handleDeleteWebinar = (id) => {
+    dispatch(deleteUserWebinarAction({ id }));
+  };
+
   useEffect(() => {
     //refresh webinar
     handleGetWebinars(webinars.currentPage);
@@ -76,6 +81,7 @@ function MainPage() {
           {...webinars}
           isAuth={isAuth}
           handleGetWebinars={handleGetWebinars}
+          handleDeleteWebinar={handleDeleteWebinar}
         />
         <Hot
           title='Meet Your Host - Alistair Schultz'
