@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import { createUseStyles } from 'react-jss';
 import Card from 'components/Card';
 import Button from 'components/Button';
@@ -79,6 +79,11 @@ function LoginPage() {
   const dispatch = useDispatch();
 
   const { isAuth } = useSelector(selector);
+
+  if (isAuth) {
+    history.push('/');
+  }
+
   const [form, localDispatch] = useReducer(reducer, initState);
 
   const { isValidate, errors } = validate(loginFormSchema, form);
@@ -97,12 +102,6 @@ function LoginPage() {
     //login
     dispatch(loginAction(form));
   };
-
-  useEffect(() => {
-    if (isAuth) {
-      history.push('/');
-    }
-  }, [isAuth]);
 
   return (
     <form id='login' className={classes.root}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import Card from 'components/Card';
@@ -170,7 +170,7 @@ function RegisterForm({ data, handleRegisterClick }) {
 
 RegisterForm.propTypes = {
   data: PropTypes.array.isRequired,
-  onRegisterClick: PropTypes.func.isRequired,
+  handleRegisterClick: PropTypes.func.isRequired,
 };
 
 export default RegisterForm;

@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Webinar from '../Webinar';
+import Webinar from './components/Webinar';
 import { useHistory } from 'react-router';
 
 const useStyles = createUseStyles(
@@ -82,6 +82,8 @@ Webinars.propTypes = {
   data: PropTypes.array.isRequired,
   hasMore: PropTypes.bool.isRequired,
   isAuth: PropTypes.bool.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  handleGetWebinars: PropTypes.func.isRequired
 };
 
 export default Webinars;

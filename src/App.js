@@ -10,6 +10,7 @@ function App() {
 
   useEffect(() => {
     dispatch(checkUserLoginAction());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

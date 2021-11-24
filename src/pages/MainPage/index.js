@@ -4,7 +4,7 @@ import Introduction from './components/Introduction';
 import Hot from './components/Hot';
 import RegisterForm from './components/RegisterForm';
 import { useDispatch, useSelector } from 'react-redux';
-import Webinars from './components/Webinars';
+import Webinars from 'components/Webinars';
 import {
   addUserWebinarAction,
   getWebinarsAction,
@@ -17,15 +17,6 @@ const useStyles = createUseStyles(() => {
       width: '100vw',
       height: 'calc(100vh - 100px)',
       paddingTop: 100,
-    },
-    webinars: {
-      background: '#F2F2F2',
-      height: 780,
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      flexWrap: 'wrap',
-      padding: `57px 92px 72px 94px`,
     },
   };
 });
@@ -48,12 +39,12 @@ function MainPage() {
     dispatch(
       getWebinarsAction({
         page,
-        author: isAuth ? userId : undefined,
+        author: userId,
       })
     );
   };
 
-  const handleRegisterClick = (id) => {
+  const handleRegisterWebinar = (id) => {
     dispatch(
       addUserWebinarAction({
         ids: [id],
@@ -68,7 +59,9 @@ function MainPage() {
     return () => {
       dispatch(initialWebinarAction());
     };
-  }, [isAuth]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuth, userId]);
 
   return (
     <div className={classes.root}>
@@ -107,7 +100,7 @@ function MainPage() {
         <RegisterForm
           {...webinars}
           isAuth={isAuth}
-          handleRegisterClick={handleRegisterClick}
+          handleRegisterClick={handleRegisterWebinar}
         />
       </main>
     </div>
