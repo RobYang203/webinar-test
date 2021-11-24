@@ -5,6 +5,7 @@ import Webinars from 'components/Webinars';
 import {
   deleteUserWebinarAction,
   getNextWebinarsAction,
+  initialWebinarsAction,
   refreshWebinarsAction,
 } from 'actions/creators/webinar';
 
@@ -30,7 +31,7 @@ function RegisteredPage() {
 
   const { isAuth, userId, webinars } = useSelector(selector);
 
-  const handleGetWebinars = (page) => {
+  const handleGetNextWebinars = (page) => {
     dispatch(
       getNextWebinarsAction({
         page,
@@ -45,13 +46,11 @@ function RegisteredPage() {
   };
 
   useEffect(() => {
-    if (isAuth)
-      dispatch(
-        refreshWebinarsAction({
-          author: userId,
-        })
-      );
+    if (isAuth) handleGetNextWebinars(1);
 
+    return () => {
+      dispatch(initialWebinarsAction());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth]);
 
@@ -61,9 +60,9 @@ function RegisteredPage() {
         <Webinars
           isAuth={true}
           hasMore={webinars.hasMore}
-          currentPage={Webinars.currentPage}
-          handleGetWebinars={handleGetWebinars}
+          currentPage={webinars.currentPage}
           handleDeleteWebinar={handleDeleteWebinar}
+          handleGetNextWebinars={handleGetNextWebinars}
           data={webinars.data.filter(({ favourited }) => favourited === true)}
         />
       </main>

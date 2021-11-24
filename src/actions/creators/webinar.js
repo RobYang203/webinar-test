@@ -1,19 +1,8 @@
 import types from '../types';
 
-export const initialWebinarAction = () => {
+export const initialWebinarsAction = () => {
   return {
     type: types.INITIAL_WEBINARS,
-  };
-};
-
-export const refreshWebinarsAction = (payload) => {
-  return {
-    type: types.REFRESH_WEBINARS,
-    payload: {
-      ...payload,
-      page: 1,
-      per_page: 12,
-    },
   };
 };
 

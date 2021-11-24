@@ -9,6 +9,7 @@ import {
   addUserWebinarAction,
   deleteUserWebinarAction,
   getNextWebinarsAction,
+  initialWebinarsAction,
   refreshWebinarsAction,
 } from 'actions/creators/webinar';
 
@@ -57,12 +58,11 @@ function MainPage() {
 
   useEffect(() => {
     //refresh webinar
-    dispatch(
-      refreshWebinarsAction({
-        author: userId,
-      })
-    );
+    handleGetNextWebinars(1);
 
+    return () => {
+      dispatch(initialWebinarsAction());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth, userId]);
 

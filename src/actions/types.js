@@ -12,7 +12,6 @@ export const basicAsyncActionTypes = [
   'LOGIN',
   'CHECK_USER_LOGIN',
   'LOGOUT',
-  'REFRESH_WEBINARS',
   'GET_NEXT_WEBINARS',
   'ADD_USER_WEBINAR',
   'DELETE_USER_WEBINAR',
