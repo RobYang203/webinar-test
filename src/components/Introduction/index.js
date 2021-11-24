@@ -23,6 +23,12 @@ const useStyles = createUseStyles(
           color: theme.palette.textSecondary,
         },
       },
+      '@media (max-width: 400px)': {
+        root: {
+          paddingRight: 28,
+          paddingLeft: 21,
+        },
+      },
     };
   },
   { name: 'introduction' }

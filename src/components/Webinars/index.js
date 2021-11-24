@@ -27,6 +27,12 @@ const useStyles = createUseStyles(
         textAlign: 'center',
         color: palette.textPrimary,
       },
+      '@media (max-width: 400px)': {
+        root: {
+          paddingRight: 26,
+          paddingLeft: 26,
+        },
+      }
     };
   },
   { name: 'webinars' }
