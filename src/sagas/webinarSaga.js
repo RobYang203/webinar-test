@@ -1,19 +1,19 @@
 import { call, put, select } from '@redux-saga/core/effects';
 import types from 'actions/types';
-import { deleteFavouriteResult, insertFavouriteResult } from 'apis/favourited';
+import { deleteFavouritedResult, insertFavouriteResult } from 'apis/favourited';
 import { getPostsResult } from 'apis/post';
 
-//GET_WEBINARS
-const OKGetWebinars = (payload) => {
+//GET_NEXT_WEBINARS
+const OKGetNextWebinars = (payload) => {
   return {
-    type: types.GET_WEBINARS_SUCCESS,
+    type: types.GET_NEXT_WEBINARS_SUCCESS,
     payload,
   };
 };
 
-const ErrGetWebinars = (message) => {
+const ErrGetNextWebinars = (message) => {
   return {
-    type: types.GET_WEBINARS_SUCCESS,
+    type: types.GET_NEXT_WEBINARS_SUCCESS,
     globalMessage: {
       status: 'error',
       text: message,
@@ -21,16 +21,47 @@ const ErrGetWebinars = (message) => {
   };
 };
 
-export function* getWebinarsSaga({ payload }) {
+export function* getNextWebinarsSaga({ payload }) {
   try {
     const token = yield select(({ auth }) => auth.token);
     const { data } = yield call(getPostsResult, { token, ...payload });
 
-    yield put(OKGetWebinars(data));
+    yield put(OKGetNextWebinars(data));
   } catch (error) {
     const message = error.response?.data?.data?.message || error.message;
 
-    yield put(ErrGetWebinars(message));
+    yield put(ErrGetNextWebinars(message));
+  }
+}
+
+//REFRESH_WEBINARS
+const OKRefreshWebinars = (payload) => {
+  return {
+    type: types.REFRESH_WEBINARS_SUCCESS,
+    payload,
+  };
+};
+
+const ErrRefreshWebinars = (message) => {
+  return {
+    type: types.REFRESH_WEBINARS_SUCCESS,
+    globalMessage: {
+      status: 'error',
+      text: message,
+    },
+  };
+};
+
+export function* refreshWebinarsSaga({ payload }) {
+  try {
+    const token = yield select(({ auth }) => auth.token);
+    const { data } = yield call(getPostsResult, { token, ...payload });
+
+    yield put(OKRefreshWebinars(data));
+  } catch (error) {
+    const message = error.response?.data?.data?.message || error.message;
+
+    yield put(ErrRefreshWebinars(message));
   }
 }
 
@@ -57,7 +88,11 @@ export function* addUserWebinarSaga({ payload }) {
     const token = yield select(({ auth }) => auth.token);
     yield call(insertFavouriteResult, { token, ...payload });
 
-    yield put(OKAddWebinar(payload));
+    yield put(
+      OKAddWebinar({
+        targetId: payload.ids[0],
+      })
+    );
   } catch (error) {
     const message = error.response?.data?.data?.message || error.message;
 
@@ -86,11 +121,14 @@ const ErrDeleteWebinar = (message) => {
 export function* deleteUserWebinarSaga({ payload }) {
   try {
     const token = yield select(({ auth }) => auth.token);
-    
-    yield call(deleteFavouriteResult, { token, ...payload });
-    yield put(OKDeleteWebinar(payload));
+
+    yield call(deleteFavouritedResult, { token, ...payload });
+    yield put(
+      OKDeleteWebinar({
+        targetId: payload.id,
+      })
+    );
   } catch (error) {
-    console.log("🚀 ~ file: webinarSaga.js ~ line 93 ~ function*deleteUserWebinarSaga ~ error", error)
     const message = error.response?.data?.data?.message || error.message;
 
     yield put(ErrDeleteWebinar(message));

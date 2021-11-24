@@ -34,7 +34,14 @@ const useStyles = createUseStyles(
   { name: 'webinars' }
 );
 
-function Webinars({ data, hasMore, currentPage, isAuth, handleGetWebinars , handleDeleteWebinar }) {
+function Webinars({
+  data,
+  isAuth,
+  hasMore,
+  currentPage,
+  handleGetNextWebinars,
+  handleDeleteWebinar,
+}) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -47,8 +54,7 @@ function Webinars({ data, hasMore, currentPage, isAuth, handleGetWebinars , hand
   };
 
   const onRegisteredClick = (id) => {
-    handleDeleteWebinar(id)
-
+    handleDeleteWebinar(id);
   };
 
   const onWebinarClick = (id) => {
@@ -56,7 +62,7 @@ function Webinars({ data, hasMore, currentPage, isAuth, handleGetWebinars , hand
   };
 
   const nextWebinars = () => {
-    handleGetWebinars(currentPage + 1);
+    handleGetNextWebinars(currentPage + 1);
   };
 
   return (
@@ -91,7 +97,7 @@ Webinars.propTypes = {
   hasMore: PropTypes.bool.isRequired,
   isAuth: PropTypes.bool.isRequired,
   currentPage: PropTypes.number.isRequired,
-  handleGetWebinars: PropTypes.func.isRequired,
+  handleGetNextWebinars: PropTypes.func.isRequired,
   handleDeleteWebinar: PropTypes.func.isRequired,
 };
 

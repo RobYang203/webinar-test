@@ -12,7 +12,7 @@ export const insertFavouriteResult = async ({ token, ...payload }) => {
   return res;
 };
 
-export const deleteFavouriteResult = async ({ token, id }) => {
+export const deleteFavouritedResult = async ({ token, id }) => {
   const res = await server.delete(`/favourites/post/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,

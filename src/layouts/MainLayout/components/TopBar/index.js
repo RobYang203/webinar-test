@@ -31,10 +31,16 @@ const useStyles = createUseStyles(() => ({
     justifyContent: 'center',
     minWidth: 510,
   },
-  icon: {
+  logo: {
     flexBasis: 100,
     flexGrow: 0,
     flexShrink: 1,
+    border: 0,
+    background: 'transparent',
+    cursor: 'pointer',
+    '&:hover': {
+      filter: 'drop-shadow(8px 8px 10px #000)',
+    },
   },
   buttonGroup: {
     flexBasis: 250,
@@ -81,11 +87,17 @@ function TopBar() {
     history.push('/registered');
   };
 
+  const backToMain = (e) => {
+    e.preventDefault();
+
+    history.push('/');
+  };
+
   return (
     <header className={classes.root}>
-      <section className={classes.icon}>
+      <button className={classes.logo} onClick={backToMain}>
         <Logo />
-      </section>
+      </button>
       <section className={classes.menu}>
         <MenuItem text='Why ACY?' />
         <MenuItem text='Products' />

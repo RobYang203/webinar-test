@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Webinars from 'components/Webinars';
 import {
   deleteUserWebinarAction,
-  getWebinarsAction,
+  getNextWebinarsAction,
   initialWebinarAction,
+  refreshWebinarsAction,
 } from 'actions/creators/webinar';
 
 const useStyles = createUseStyles(() => {
@@ -34,7 +35,7 @@ function RegisteredPage() {
 
   const handleGetWebinars = (page) => {
     dispatch(
-      getWebinarsAction({
+      getNextWebinarsAction({
         page,
         favourited: 1,
         author: userId,
@@ -47,11 +48,12 @@ function RegisteredPage() {
   };
 
   useEffect(() => {
-    if (isAuth) handleGetWebinars(webinars.currentPage);
-
-    return () => {
-      dispatch(initialWebinarAction());
-    };
+    if (isAuth)
+      dispatch(
+        refreshWebinarsAction({
+          author: userId,
+        })
+      );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth]);
@@ -65,7 +67,7 @@ function RegisteredPage() {
           currentPage={Webinars.currentPage}
           handleGetWebinars={handleGetWebinars}
           handleDeleteWebinar={handleDeleteWebinar}
-          data={webinars.data.filter(({favourited})=> favourited === true)}
+          data={webinars.data.filter(({ favourited }) => favourited === true)}
         />
       </main>
     </div>
