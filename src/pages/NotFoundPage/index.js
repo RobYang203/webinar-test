@@ -18,7 +18,7 @@ function NotFoundPage() {
   return (
     <div className={classes.root}>
       <Introduction
-        title={404}
+        title={'404'}
         content={'Page not found'}
       />
     </div>
