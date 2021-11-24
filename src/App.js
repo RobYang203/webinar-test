@@ -1,18 +1,23 @@
+import { checkUserLoginAction } from 'actions/creators/auth';
 import LoadingMask from 'components/LoadingMask';
-import MessageCenter from 'components/MessageCenter';
 import MainLayout from 'layouts/MainLayout';
-import MainPage from 'pages/MainPage';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkUserLoginAction());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className='App'>
-      <MessageCenter />
-      <MainLayout>
-        <Switch>
-          <Route path='/' component={MainPage} />
-        </Switch>
-      </MainLayout>
+      <Switch>
+        <Route path='/' component={MainLayout} />
+      </Switch>
       <LoadingMask />
     </div>
   );

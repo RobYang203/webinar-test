@@ -4,19 +4,20 @@ import { BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { ThemeProvider } from 'react-jss';
 import configureStore from 'store/configureStore';
-import theme from 'theme';
+import configureTheme from 'theme';
 import App from './App';
 
 const { store } = configureStore();
-
 store.runSaga();
+
+const theme = configureTheme();
 
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ThemeProvider>
   </Provider>,
   document.getElementById('root')
