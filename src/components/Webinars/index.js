@@ -4,8 +4,6 @@ import { createUseStyles } from 'react-jss';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Webinar from './components/Webinar';
 import { useHistory } from 'react-router';
-import { useDispatch } from 'react-redux';
-import { deleteUserWebinarAction } from 'actions/creators/webinar';
 
 const useStyles = createUseStyles(
   ({ palette }) => {
@@ -29,6 +27,12 @@ const useStyles = createUseStyles(
         textAlign: 'center',
         color: palette.textPrimary,
       },
+      '@media (max-width: 400px)': {
+        root: {
+          paddingRight: 26,
+          paddingLeft: 26,
+        },
+      }
     };
   },
   { name: 'webinars' }

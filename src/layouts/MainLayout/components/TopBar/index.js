@@ -1,66 +1,10 @@
 import React from 'react';
-import { ReactComponent as Logo } from 'assets/logo.svg';
-import { createUseStyles } from 'react-jss';
-import MenuItem from '../MenuItem';
 import { useDispatch, useSelector } from 'react-redux';
-import AuthButtonGroup from '../AuthButtonGroup';
 import { useHistory } from 'react-router';
 import { logoutAction } from 'actions/creators/auth';
-
-const useStyles = createUseStyles(() => ({
-  root: {
-    top: 0,
-    left: 0,
-    height: 100,
-    background: '#fff',
-    width: 'calc(100vw - 184px)',
-    position: 'fixed',
-    padding: `0 92px`,
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    justifyContent: 'space-around',
-    borderBottom: '1px solid #EDEDED',
-  },
-  menu: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    justifyContent: 'center',
-    minWidth: 510,
-  },
-  logo: {
-    flexBasis: 100,
-    flexGrow: 0,
-    flexShrink: 1,
-    border: 0,
-    background: 'transparent',
-    cursor: 'pointer',
-    '&:hover': {
-      filter: 'drop-shadow(8px 8px 10px #000)',
-    },
-  },
-  buttonGroup: {
-    flexBasis: 250,
-    flexGrow: 0,
-    flexShrink: 1,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    '& > button': {
-      marginRight: 10,
-    },
-  },
-  button: {
-    flexBasis: 100,
-    flexShrink: 1,
-    flexGrow: 0,
-    height: 43,
-  },
-}));
+import Hidden from 'components/Hidden';
+import DesktopTopBar from './components/Desktop';
+import MobileTopBar from './components/Mobile';
 
 const selector = ({ auth }) => {
   return {
@@ -69,7 +13,6 @@ const selector = ({ auth }) => {
 };
 
 function TopBar() {
-  const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -94,26 +37,26 @@ function TopBar() {
   };
 
   return (
-    <header className={classes.root}>
-      <button className={classes.logo} onClick={backToMain}>
-        <Logo />
-      </button>
-      <section className={classes.menu}>
-        <MenuItem text='Why ACY?' />
-        <MenuItem text='Products' />
-        <MenuItem text='Platforms' />
-        <MenuItem text='Education' />
-        <MenuItem text='Partners' />
-      </section>
-      <section className={classes.buttonGroup}>
-        <AuthButtonGroup
+    <>
+      <Hidden size='mobile'>
+        <MobileTopBar
           isAuth={isAuth}
+          backToMain={backToMain}
           onLoginClick={onLoginClick}
           onLogoutClick={onLogoutClick}
           onRegisteredClick={onRegisteredClick}
         />
-      </section>
-    </header>
+      </Hidden>
+      <Hidden size='desktop'>
+        <DesktopTopBar
+          isAuth={isAuth}
+          backToMain={backToMain}
+          onLoginClick={onLoginClick}
+          onLogoutClick={onLogoutClick}
+          onRegisteredClick={onRegisteredClick}
+        />
+      </Hidden>
+    </>
   );
 }
 

@@ -6,7 +6,6 @@ import {
   deleteUserWebinarAction,
   getNextWebinarsAction,
   initialWebinarsAction,
-  refreshWebinarsAction,
 } from 'actions/creators/webinar';
 
 const useStyles = createUseStyles(({ commonStyles }) => {

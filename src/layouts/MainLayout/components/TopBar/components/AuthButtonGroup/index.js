@@ -11,6 +11,27 @@ const useStyles = createUseStyles(
       flexGrow: 0,
       height: 43,
     },
+    hide:{
+      display: 'none'
+    },
+    '@media (max-width: 400px)':{
+      root: {
+        width : 100,
+        flexBasis: 25,
+        flexShrink: 1,
+        flexGrow: 0,
+        padding: '10px 8px'
+      },
+      hide:{
+        width : 100,
+        flexBasis: 25,
+        flexShrink: 1,
+        flexGrow: 0,
+        padding: '10px 8px',
+        visibility: 'hidden',
+        display: 'block'
+      }
+    }
   }),
   { name: 'auth-button-group' }
 );
@@ -24,6 +45,12 @@ function AuthButtonGroup({
   const classes = useStyles();
   if (!isAuth)
     return (
+    <>
+      <Button
+        className={classes.hide}
+        variant='outlined'
+        color='primary'>
+      </Button>
       <Button
         className={classes.root}
         variant='outlined'
@@ -31,6 +58,7 @@ function AuthButtonGroup({
         onClick={onLoginClick}>
         Login
       </Button>
+    </>
     );
 
   return (

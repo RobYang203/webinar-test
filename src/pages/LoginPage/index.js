@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { createUseStyles } from 'react-jss';
 import Card from 'components/Card';
 import Button from 'components/Button';
@@ -49,6 +49,25 @@ const useStyles = createUseStyles(
       button: {
         height: 43,
       },
+      '@media (max-width: 400px)': {
+        container: {
+          paddingRight: 28,
+          paddingLeft: 21,
+        },
+        card: {
+          paddingRight: 28,
+          paddingLeft: 21,
+        },
+        header: {
+          width: '100%',
+        },
+        body: {
+          width: '100%',
+        },
+        footer: {
+          width: '100%',
+        },
+      },
     };
   },
   { name: 'webinar' }
@@ -83,10 +102,6 @@ function LoginPage() {
 
   const { isAuth } = useSelector(selector);
 
-  if (isAuth) {
-    history.push('/');
-  }
-
   const [form, localDispatch] = useReducer(reducer, initState);
 
   const { isValidate, errors } = validate(loginFormSchema, form);
@@ -105,6 +120,14 @@ function LoginPage() {
     //login
     dispatch(loginAction(form));
   };
+
+  useEffect(() => {
+    if (isAuth) {
+      history.push('/');
+    }
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuth]);
 
   return (
     <form id='login' className={classes.root}>

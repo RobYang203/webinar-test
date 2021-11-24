@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 function checkScreenWidth() {
-  if (window.innerWidth > 320) {
+  if (window.innerWidth > 400) {
     return 'desktop';
   } else {
     return 'mobile';

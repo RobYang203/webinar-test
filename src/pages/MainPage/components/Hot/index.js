@@ -8,6 +8,7 @@ const useStyles = createUseStyles(
   ({ palette }) => {
     return {
       root: {
+        gap: 20,
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
@@ -38,6 +39,17 @@ const useStyles = createUseStyles(
       button: {
         fontSize: 16,
         padding: 0,
+      },
+      '@media (max-width: 400px)': {
+        root: {
+          paddingRight: 28,
+          paddingLeft: 21,
+        },
+        intro:{
+          '& > p': {
+            width: '90vw'
+          },
+        }
       },
     };
   },

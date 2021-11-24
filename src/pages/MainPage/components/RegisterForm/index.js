@@ -45,6 +45,25 @@ const useStyles = createUseStyles(
       button: {
         height: 43,
       },
+      '@media (max-width: 400px)': {
+        root: {
+          paddingRight: 28,
+          paddingLeft: 21,
+        },
+        card: {
+          paddingRight: 28,
+          paddingLeft: 21,
+        },
+        header: {
+          width: '100%',
+        },
+        body: {
+          width: '100%',
+        },
+        footer: {
+          width: '100%',
+        },
+      },
     };
   },
   { name: 'webinar' }
