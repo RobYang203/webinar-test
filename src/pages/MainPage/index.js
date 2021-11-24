@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createUseStyles } from 'react-jss';
-import Introduction from './components/Introduction';
+import Introduction from 'components/Introduction';
 import Hot from './components/Hot';
 import RegisterForm from './components/RegisterForm';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,16 +9,13 @@ import {
   addUserWebinarAction,
   deleteUserWebinarAction,
   getNextWebinarsAction,
-  initialWebinarAction,
   refreshWebinarsAction,
 } from 'actions/creators/webinar';
 
-const useStyles = createUseStyles(() => {
+const useStyles = createUseStyles(({ commonStyles }) => {
   return {
     root: {
-      width: '100vw',
-      height: 'calc(100vh - 100px)',
-      paddingTop: 100,
+      ...commonStyles.pageRootStyle,
     },
   };
 });
@@ -60,11 +57,13 @@ function MainPage() {
 
   useEffect(() => {
     //refresh webinar
-    dispatch(refreshWebinarsAction({
-      author: userId,
-    }));
+    dispatch(
+      refreshWebinarsAction({
+        author: userId,
+      })
+    );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth, userId]);
 
   return (

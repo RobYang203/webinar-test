@@ -5,7 +5,7 @@ import {
   authEmailLoginResult,
   authLogoutResult,
 } from 'apis/auth';
-import { getUserToken, removeUserToken, setUserToken } from 'utils';
+import { getUserToken, removeUserToken, setUserToken } from 'utils/token';
 
 //LOGIN
 const OKLogin = (payload) => {

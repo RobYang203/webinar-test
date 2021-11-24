@@ -5,6 +5,7 @@ import {
   addUserWebinarSaga,
   deleteUserWebinarSaga,
   getNextWebinarsSaga,
+  getWebinarDetailSaga,
   refreshWebinarsSaga,
 } from './webinarSaga';
 
@@ -36,4 +37,8 @@ export function* watchAddUserWebinarSaga() {
 
 export function* watchDeleteUserWebinarSaga() {
   yield takeLatest(types.DELETE_USER_WEBINAR, deleteUserWebinarSaga);
+}
+
+export function* watchGetWebinarDetailSaga() {
+  yield takeLatest(types.GET_WEBINAR_DETAIL, getWebinarDetailSaga);
 }

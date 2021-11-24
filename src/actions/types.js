@@ -15,6 +15,7 @@ export const basicAsyncActionTypes = [
   'GET_NEXT_WEBINARS',
   'ADD_USER_WEBINAR',
   'DELETE_USER_WEBINAR',
+  'GET_WEBINAR_DETAIL',
 ];
 
 const asyncActionTypes = basicAsyncActionTypes.reduce((result, actionType) => {

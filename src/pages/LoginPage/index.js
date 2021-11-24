@@ -7,16 +7,17 @@ import CardBody from 'components/Card/CardBody';
 import CardFooter from 'components/Card/CardFooter';
 import FormLabel from 'components/Form/FormLabel';
 import TextInput from 'components/Form/TextInput';
-import { validate } from 'utils';
+import { validate } from 'utils/validate';
 import { loginFormSchema } from './schema';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { loginAction } from 'actions/creators/auth';
 
 const useStyles = createUseStyles(
-  ({ palette }) => {
+  ({ palette, commonStyles }) => {
     return {
       root: {
+        ...commonStyles.pageRootStyle,
         padding: `6.8rem`,
       },
       card: {

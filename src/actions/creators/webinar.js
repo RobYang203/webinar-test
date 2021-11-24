@@ -43,3 +43,10 @@ export const deleteUserWebinarAction = (payload) => {
     payload,
   };
 };
+
+export const getWebinarDetailAction = (payload) => {
+  return {
+    type: types.GET_WEBINAR_DETAIL,
+    payload,
+  };
+};

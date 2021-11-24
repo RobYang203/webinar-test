@@ -10,6 +10,8 @@ import CardFooter from 'components/Card/CardFooter';
 import { format } from 'date-fns';
 import addDays from 'date-fns/addDays';
 import WebinarStateButton from './components/WebinarStateButton';
+import { getAddDayString } from 'utils/date';
+import { createMarkup } from 'utils';
 
 const useStyles = createUseStyles(
   ({ palette }) => {
@@ -69,13 +71,8 @@ const useStyles = createUseStyles(
   { name: 'webinar' }
 );
 
-const getEndAt = (createAt) => {
-  return format(addDays(new Date(createAt), 10), 'yyyy/MM/dd hh:mm');
-};
 
-function createMarkup(text) {
-  return { __html: text };
-}
+
 
 function Webinar({
   id,
@@ -100,7 +97,7 @@ function Webinar({
             className={classes.content}
             dangerouslySetInnerHTML={createMarkup(content)}
           />
-          <p className={classes.endAt}>{getEndAt(created_at)}</p>
+          <p className={classes.endAt}>{getAddDayString(created_at , 10)}</p>
         </CardBody>
         <CardFooter className={classes.footer}>
           <div className={classes.buttonGroup}>

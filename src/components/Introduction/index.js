@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
-
+import { createMarkup } from 'utils';
 
 const useStyles = createUseStyles(
   (theme) => {
@@ -33,7 +33,7 @@ function Introduction({ title, content }) {
   return (
     <section className={classes.root}>
       <h2>{title}</h2>
-      <p>{content}</p>
+      <p dangerouslySetInnerHTML={createMarkup(content)} />
     </section>
   );
 }

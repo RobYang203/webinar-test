@@ -9,7 +9,7 @@ import CardFooter from 'components/Card/CardFooter';
 import FormLabel from 'components/Form/FormLabel';
 import Select from 'components/Form/Select';
 import TextInput from 'components/Form/TextInput';
-import { validate } from 'utils';
+import { validate } from 'utils/validate';
 import { registerFormSchema } from './schema';
 
 const useStyles = createUseStyles(
