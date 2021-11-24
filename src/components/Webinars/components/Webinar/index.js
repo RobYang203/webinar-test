@@ -7,8 +7,6 @@ import Button from 'components/Button';
 import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 import CardFooter from 'components/Card/CardFooter';
-import { format } from 'date-fns';
-import addDays from 'date-fns/addDays';
 import WebinarStateButton from './components/WebinarStateButton';
 import { getAddDayString } from 'utils/date';
 import { createMarkup } from 'utils';

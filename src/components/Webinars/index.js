@@ -4,8 +4,6 @@ import { createUseStyles } from 'react-jss';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Webinar from './components/Webinar';
 import { useHistory } from 'react-router';
-import { useDispatch } from 'react-redux';
-import { deleteUserWebinarAction } from 'actions/creators/webinar';
 
 const useStyles = createUseStyles(
   ({ palette }) => {
