@@ -81,10 +81,18 @@ function TopBar() {
     history.push('/registered');
   };
 
+  const backToMain = (e)=>{
+    e.preventDefault();
+
+    history.push('/');
+  }
+
   return (
     <header className={classes.root}>
       <section className={classes.icon}>
-        <Logo />
+        <a href="javascript:void(0)" onClick={backToMain}>
+          <Logo />
+        </a>
       </section>
       <section className={classes.menu}>
         <MenuItem text='Why ACY?' />
