@@ -1,11 +1,8 @@
 import React from 'react';
+import { ReactComponent as Logo } from 'assets/logo.svg';
 import { createUseStyles } from 'react-jss';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
-import { logoutAction } from 'actions/creators/auth';
-import Hidden from 'components/Hidden';
-import DesktopTopBar from './components/Desktop';
-import MobileTopBar from './components/Mobile';
+import MenuItem from '../MenuItem';
+import AuthButtonGroup from '../AuthButtonGroup';
 
 const useStyles = createUseStyles(() => ({
   root: {
@@ -68,59 +65,36 @@ const useStyles = createUseStyles(() => ({
   },
 }));
 
-const selector = ({ auth }) => {
-  return {
-    isAuth: auth.isAuth,
-  };
-};
-
-function TopBar() {
+function DesktopTopBar({
+  isAuth,
+  backToMain,
+  onLoginClick,
+  onLogoutClick,
+  onRegisteredClick,
+}) {
   const classes = useStyles();
-  const history = useHistory();
-  const dispatch = useDispatch();
-
-  const { isAuth } = useSelector(selector);
-
-  const onLoginClick = () => {
-    history.push('/login');
-  };
-
-  const onLogoutClick = () => {
-    dispatch(logoutAction());
-  };
-
-  const onRegisteredClick = () => {
-    history.push('/registered');
-  };
-
-  const backToMain = (e) => {
-    e.preventDefault();
-
-    history.push('/');
-  };
-
   return (
-    <>
-      <Hidden size='mobile'>
-        <MobileTopBar
+    <header className={classes.root}>
+      <button className={classes.logo} onClick={backToMain}>
+        <Logo />
+      </button>
+      <section className={classes.menu}>
+        <MenuItem text='Why ACY?' />
+        <MenuItem text='Products' />
+        <MenuItem text='Platforms' />
+        <MenuItem text='Education' />
+        <MenuItem text='Partners' />
+      </section>
+      <section className={classes.buttonGroup}>
+        <AuthButtonGroup
           isAuth={isAuth}
-          backToMain={backToMain}
           onLoginClick={onLoginClick}
           onLogoutClick={onLogoutClick}
           onRegisteredClick={onRegisteredClick}
         />
-      </Hidden>
-      <Hidden size='desktop'>
-        <DesktopTopBar
-          isAuth={isAuth}
-          backToMain={backToMain}
-          onLoginClick={onLoginClick}
-          onLogoutClick={onLogoutClick}
-          onRegisteredClick={onRegisteredClick}
-        />
-      </Hidden>
-    </>
+      </section>
+    </header>
   );
 }
 
-export default TopBar;
+export default DesktopTopBar;
