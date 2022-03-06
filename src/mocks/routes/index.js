@@ -3,7 +3,7 @@ import {
   getAllWebinars,
   getUserInfo,
   verifyUserAuthToken,
-} from 'mocks/db';
+} from 'mocks/controllers';
 import { rest } from 'msw';
 import * as yup from 'yup';
 
@@ -72,26 +72,28 @@ export const authLoginHandler = rest.post(
 
 export const postHandler = rest.get('/posts', (req, res, ctx) => {
   try {
-    // const bearerAuthToken = req.headers.get('Authorization');
+    const bearerAuthToken = req.headers.get('Authorization');
+    console.log("🚀 ~ file: index.js ~ line 76 ~ postHandler ~ bearerAuthToken", bearerAuthToken)
 
-    // if (!Boolean(bearerAuthToken)) throw Error('token empty');
+    const page = Number(req.url.searchParams.get('page'));
+    const perPage = Number(req.url.searchParams.get('per_page'));
 
     // const user = verifyUserAuthToken(bearerAuthToken);
 
-    // if (!Boolean(user)) throw Error('token error');
+    // const isLogin = !Boolean(user);
 
-    const data = getAllWebinars();
+    const { total_pages, list } = getAllWebinars(page, perPage);
 
     return res(
       ctx.status(200),
       ctx.json({
-        meta:{
-          pagination:{
-            current_page: 1, 
-            total_pages : 1
-          }
+        meta: {
+          pagination: {
+            current_page: page,
+            total_pages,
+          },
         },
-        data,
+        data: list,
       })
     );
   } catch (e) {
