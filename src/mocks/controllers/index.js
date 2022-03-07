@@ -25,14 +25,14 @@ export const verifyUserAuthToken = (bearerAuthToken) => {
 
   const token = trim(bearerAuthToken.replace(/^Bearer/, ''));
 
-  if(!Boolean(token)) return null;
-  
+  if (!Boolean(token)) return null;
+
   const { email } = jsonwebtoken.verify(token, PRIVATE_KEY);
 
   return getUserInfo(email);
 };
 
-export const getAllWebinars = (page, perPage) => {
+export const getAllWebinars = (user, page, perPage) => {
   const count = DBSchema.webinars.count();
 
   const morePage = count % perPage > 0 ? 1 : 0;
@@ -43,10 +43,77 @@ export const getAllWebinars = (page, perPage) => {
     skip: (page - 1) * perPage,
   });
 
+  const subscribes = user
+    ? DBSchema.subscribes.findMany({
+        where: {
+          userId: {
+            equals: user.id,
+          },
+        },
+      })
+    : [];
+
   return {
     total_pages: totalPages,
-    list: webinarPages,
+    list: webinarPages.map((webinar) => {
+      return {
+        ...webinar,
+        favourited: subscribes.some(
+          ({ webinarId }) => webinarId === webinar.id
+        ),
+      };
+    }),
   };
+};
+
+export const getWebinar = (id) => {
+  return DBSchema.webinars.findFirst({
+    where: {
+      id: {
+        equals: id,
+      },
+    },
+  });
+};
+
+export const subscribeWebinar = (userId, webinarId) => {
+  const targetCount = DBSchema.webinars.count({
+    where: {
+      id: {
+        equals: webinarId,
+      },
+    },
+  });
+
+  if (targetCount === 0) return null;
+
+  return DBSchema.subscribes.create({
+    userId,
+    webinarId,
+  });
+};
+
+export const removeFavouritesById = (userId, webinarId) => {
+  const targetCount = DBSchema.webinars.count({
+    where: {
+      id: {
+        equals: webinarId,
+      },
+    },
+  });
+
+  if (targetCount === 0) return null;
+
+  return DBSchema.subscribes.delete({
+    where: {
+      userId: {
+        equals: userId,
+      },
+      webinarId: {
+        equals: webinarId,
+      },
+    },
+  });
 };
 
 export const serverInit = () => {

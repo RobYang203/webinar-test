@@ -16,8 +16,8 @@ const DBSchema = factory({
   },
   subscribes: {
     id: primaryKey(faker.datatype.uuid),
-    user: oneOf('user'),
-    webinar: oneOf('webinars'),
+    userId: String,
+    webinarId: String,
   },
   auth: {
     id: primaryKey(faker.datatype.uuid),
@@ -25,5 +25,7 @@ const DBSchema = factory({
     userId: String,
   },
 });
+
+window.db = DBSchema;
 
 export default DBSchema;

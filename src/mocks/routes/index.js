@@ -2,6 +2,9 @@ import {
   createUserAuthToken,
   getAllWebinars,
   getUserInfo,
+  getWebinar,
+  removeFavouritesById,
+  subscribeWebinar,
   verifyUserAuthToken,
 } from 'mocks/controllers';
 import { rest } from 'msw';
@@ -70,19 +73,37 @@ export const authLoginHandler = rest.post(
   }
 );
 
-export const postHandler = rest.get('/posts', (req, res, ctx) => {
+export const authLogoutHandler = rest.post('/auth/logout', (req, res, ctx) => {
   try {
     const bearerAuthToken = req.headers.get('Authorization');
-    console.log("🚀 ~ file: index.js ~ line 76 ~ postHandler ~ bearerAuthToken", bearerAuthToken)
+
+    const user = verifyUserAuthToken(bearerAuthToken);
+
+    if (!Boolean(user)) throw Error('token error');
+
+    return res(
+      ctx.status(200),
+    );
+  } catch (e) {
+    return res(
+      ctx.status(401),
+      ctx.json({
+        message: e.message,
+      })
+    );
+  }
+});
+
+export const getPostsHandler = rest.get('/posts', (req, res, ctx) => {
+  try {
+    const bearerAuthToken = req.headers.get('Authorization');
 
     const page = Number(req.url.searchParams.get('page'));
     const perPage = Number(req.url.searchParams.get('per_page'));
 
-    // const user = verifyUserAuthToken(bearerAuthToken);
+    const user = verifyUserAuthToken(bearerAuthToken);
 
-    // const isLogin = !Boolean(user);
-
-    const { total_pages, list } = getAllWebinars(page, perPage);
+    const { total_pages, list } = getAllWebinars(user, page, perPage);
 
     return res(
       ctx.status(200),
@@ -94,6 +115,92 @@ export const postHandler = rest.get('/posts', (req, res, ctx) => {
           },
         },
         data: list,
+      })
+    );
+  } catch (e) {
+    return res(
+      ctx.status(401),
+      ctx.json({
+        message: e.message,
+      })
+    );
+  }
+});
+
+export const getPostHandler = rest.get('/posts/:id', (req, res, ctx) => {
+  try {
+    const id = req.params['id'];
+
+    const data = getWebinar(id);
+
+    if(!Boolean(data)) throw Error('data not found');
+
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data,
+      })
+    );
+  } catch (e) {
+    return res(
+      ctx.status(401),
+      ctx.json({
+        message: e.message,
+      })
+    );
+  }
+});
+
+
+export const deleteFavouriteHandler = rest.delete('/favourites/post/:id', (req, res, ctx) => {
+  try {
+    const bearerAuthToken = req.headers.get('Authorization');
+    const user = verifyUserAuthToken(bearerAuthToken);
+
+    if (!Boolean(user)) throw Error('user not found');
+
+    const id = req.params['id'];
+    const data = removeFavouritesById(user.id , id);
+
+    if(!Boolean(data)) throw Error('data not found');
+
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data,
+      })
+    );
+  } catch (e) {
+    return res(
+      ctx.status(401),
+      ctx.json({
+        message: e.message,
+      })
+    );
+  }
+});
+
+
+export const settingFavouritesHandler = rest.post('/favourites', (req, res, ctx) => {
+  try {
+    const bearerAuthToken = req.headers.get('Authorization');
+
+    const user = verifyUserAuthToken(bearerAuthToken);
+
+    if (!Boolean(user)) throw Error('user not found');
+
+    const {ids} = req.body;
+
+    if(ids.length === 0) throw Error('no favourite item');
+
+    const data = subscribeWebinar(user.id , ids[0]);
+
+    if(!Boolean(data)) throw Error('data not found');
+    
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data,
       })
     );
   } catch (e) {
