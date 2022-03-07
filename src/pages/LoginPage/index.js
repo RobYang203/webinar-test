@@ -12,6 +12,7 @@ import { loginFormSchema } from './schema';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { loginAction } from 'actions/creators/auth';
+import { Link } from 'react-router-dom';
 
 const useStyles = createUseStyles(
   ({ palette, commonStyles }) => {
@@ -48,6 +49,12 @@ const useStyles = createUseStyles(
       },
       button: {
         height: 43,
+      },
+      signUpBtn:{
+        display:'block',
+        marginTop: 10 ,
+        marginBottom: 10,
+        float: 'right'
       },
       '@media (max-width: 400px)': {
         container: {
@@ -158,6 +165,7 @@ function LoginPage() {
               onChange={onFormChange('password')}
               showErrorMsg={form.password !== null}
             />
+            <Link className={classes.signUpBtn}>Sign up?</Link>
           </CardBody>
           <CardFooter className={classes.footer}>
             <Button
