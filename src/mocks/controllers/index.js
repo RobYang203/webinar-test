@@ -124,7 +124,7 @@ export const serverInit = () => {
   });
 
   Array.from({ length: 51 }, () => {
-    DBSchema.webinars.create({
+    return DBSchema.webinars.create({
       title: faker.lorem.words(),
       content: `<p>${faker.lorem.paragraphs()}</p> <p>${faker.lorem.paragraphs()}</p>`,
       created_at: faker.time.recent('unix'),

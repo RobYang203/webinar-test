@@ -1,4 +1,4 @@
-import { factory, manyOf, oneOf, primaryKey } from '@mswjs/data';
+import { factory, primaryKey } from '@mswjs/data';
 import faker from '@faker-js/faker';
 
 const DBSchema = factory({
