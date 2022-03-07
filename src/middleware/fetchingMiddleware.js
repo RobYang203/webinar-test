@@ -16,6 +16,7 @@ export const startFetchingMiddleware = (store) => (next) => (action) => {
 
 export const stopFetchingMiddleware = (store) => (next) => (action) => {
   const isResponseAction = responseRegExp.test(action.type);
+  console.log("🚀 ~ file: fetchingMiddleware.js ~ line 19 ~ stopFetchingMiddleware ~ action.type", action.type)
 
   const basicType = action.type.replace(responseRegExp, '');
   const isBasicAsyncAction = basicAsyncActionTypes.includes(basicType);

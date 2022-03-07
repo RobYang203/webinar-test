@@ -7,7 +7,7 @@ const settingWebinars = ({ list, detail }, { data, meta }) => {
   return {
     detail,
     list: {
-      hasMore: current_page <= total_pages,
+      hasMore: current_page < total_pages,
       currentPage: current_page,
       data: [...list.data, ...data],
     },
