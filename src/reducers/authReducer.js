@@ -23,6 +23,9 @@ export default function authReducer(auth = authState, { type, payload }) {
     case types.CHECK_USER_LOGIN_ERROR:
     case types.LOGIN_ERROR:
     case types.LOGIN:
+    case types.SIGNUP:
+    case types.SIGNUP_ERROR:
+    case types.SIGNUP_SUCCESS:
     default:
       return auth;
   }

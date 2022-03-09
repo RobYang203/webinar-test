@@ -9,6 +9,7 @@ export const syncActionTypes = [
 ];
 
 export const basicAsyncActionTypes = [
+  'SIGNUP',
   'LOGIN',
   'CHECK_USER_LOGIN',
   'LOGOUT',
