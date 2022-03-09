@@ -20,7 +20,7 @@ async function renderMain(){
   ReactDOM.render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.REACT_APP_BASENAME} >
           <App />
         </BrowserRouter>
       </ThemeProvider>
