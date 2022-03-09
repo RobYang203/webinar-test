@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import { createUseStyles } from 'react-jss';
 import Card from 'components/Card';
 import Button from 'components/Button';
@@ -9,10 +9,8 @@ import FormLabel from 'components/Form/FormLabel';
 import TextInput from 'components/Form/TextInput';
 import { validate } from 'utils/validate';
 import { signupFormSchema } from './schema';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
-import { loginAction, signupAction } from 'actions/creators/auth';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signupAction } from 'actions/creators/auth';
 
 const useStyles = createUseStyles(
   ({ palette, commonStyles }) => {
@@ -100,7 +98,6 @@ const reducer = (state, { type, payload }) => {
 
 function SignupPage() {
   const classes = useStyles();
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const [signupForm, signupFormDispatch] = useReducer(reducer, initState);
