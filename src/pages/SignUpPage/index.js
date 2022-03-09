@@ -8,10 +8,10 @@ import CardFooter from 'components/Card/CardFooter';
 import FormLabel from 'components/Form/FormLabel';
 import TextInput from 'components/Form/TextInput';
 import { validate } from 'utils/validate';
-import { loginFormSchema } from './schema';
+import { signupFormSchema } from './schema';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { loginAction } from 'actions/creators/auth';
+import { loginAction, signupAction } from 'actions/creators/auth';
 import { Link } from 'react-router-dom';
 
 const useStyles = createUseStyles(
@@ -50,11 +50,11 @@ const useStyles = createUseStyles(
       button: {
         height: 43,
       },
-      signUpBtn:{
-        display:'block',
-        marginTop: 10 ,
+      signUpBtn: {
+        display: 'block',
+        marginTop: 10,
         marginBottom: 10,
-        float: 'right'
+        float: 'right',
       },
       '@media (max-width: 400px)': {
         container: {
@@ -81,8 +81,10 @@ const useStyles = createUseStyles(
 );
 
 const initState = {
+  name: null,
   email: null,
   password: null,
+  passwordConfirm: null,
 };
 
 const FORM_DATA_CHANGE_ACTION = 'FORM_DATA_CHANGE_ACTION';
@@ -96,25 +98,17 @@ const reducer = (state, { type, payload }) => {
   }
 };
 
-const selector = ({ auth }) => {
-  return {
-    isAuth: auth.isAuth,
-  };
-};
-
-function LoginPage() {
+function SignupPage() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { isAuth } = useSelector(selector);
+  const [signupForm, signupFormDispatch] = useReducer(reducer, initState);
 
-  const [form, localDispatch] = useReducer(reducer, initState);
-
-  const { isValidate, errors } = validate(loginFormSchema, form);
+  const { isValidate, errors } = validate(signupFormSchema, signupForm);
 
   const onFormChange = (name) => (e) => {
-    localDispatch({
+    signupFormDispatch({
       type: FORM_DATA_CHANGE_ACTION,
       payload: {
         [name]: e.target.value,
@@ -122,50 +116,62 @@ function LoginPage() {
     });
   };
 
-  const onLoginCLick = (e) => {
+  const onSignupCLick = (e) => {
     e.preventDefault();
     //login
-    dispatch(loginAction(form));
+    dispatch(signupAction(signupForm))
   };
 
-  useEffect(() => {
-    if (isAuth) {
-      history.push('/');
-    }
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuth]);
-
   return (
-    <form id='login' className={classes.root}>
+    <form id='signup' className={classes.root}>
       <div className={classes.container}>
         <Card center className={classes.card} roundSize='large'>
           <CardHeader className={classes.header}>
-            <h2 className={classes.title}>LOGIN ACY SECURITIES</h2>
+            <h2 className={classes.title}>SIGN UP ACY SECURITIES</h2>
           </CardHeader>
           <CardBody className={classes.body}>
             <FormLabel
               maxWidth
-              labelText='Email'
+              labelText='Name'
               control={TextInput}
-              value={form.email}
-              errorMsg={errors.email}
-              onChange={onFormChange('email')}
+              value={signupForm.name}
+              errorMsg={errors.name}
+              onChange={onFormChange('name')}
               className={classes.formControl}
-              showErrorMsg={form.email !== null}
+              showErrorMsg={signupForm.name !== null}
             />
             <FormLabel
               maxWidth
-              type='password'
+              labelText='Email'
+              control={TextInput}
+              value={signupForm.email}
+              errorMsg={errors.email}
+              onChange={onFormChange('email')}
+              className={classes.formControl}
+              showErrorMsg={signupForm.email !== null}
+            />
+            <FormLabel
+              maxWidth
+              type='text'
               labelText='Password'
               control={TextInput}
-              value={form.password}
+              value={signupForm.password}
               errorMsg={errors.password}
               className={classes.formControl}
               onChange={onFormChange('password')}
-              showErrorMsg={form.password !== null}
+              showErrorMsg={signupForm.password !== null}
             />
-            <Link className={classes.signUpBtn}>Sign up?</Link>
+            <FormLabel
+              maxWidth
+              type='text'
+              labelText='Password Confirm'
+              control={TextInput}
+              value={signupForm.passwordConfirm}
+              errorMsg={errors.passwordConfirm}
+              className={classes.formControl}
+              onChange={onFormChange('passwordConfirm')}
+              showErrorMsg={signupForm.passwordConfirm !== null}
+            />
           </CardBody>
           <CardFooter className={classes.footer}>
             <Button
@@ -174,8 +180,8 @@ function LoginPage() {
               variant='contained'
               disabled={!isValidate}
               className={classes.button}
-              onClick={onLoginCLick}>
-              LOGIN
+              onClick={onSignupCLick}>
+              SIGN UP
             </Button>
           </CardFooter>
         </Card>
@@ -184,4 +190,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default SignupPage;

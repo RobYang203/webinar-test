@@ -27,3 +27,9 @@ export const authLogoutResult = async ({ token }) => {
 
   return res;
 };
+
+export const authSignupResult = async (payload) => {
+  const res = await server.post('/auth/signup', payload);
+
+  return res;
+};

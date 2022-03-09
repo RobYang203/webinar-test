@@ -105,7 +105,7 @@ function RegisterForm({ data, handleRegisterClick }) {
   const onRegisterClick = (e) => {
     e.preventDefault();
 
-    handleRegisterClick(Number(form.id));
+    handleRegisterClick(form.id);
   };
 
   useEffect(() => {

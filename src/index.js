@@ -6,19 +6,27 @@ import { ThemeProvider } from 'react-jss';
 import configureStore from 'store/configureStore';
 import configureTheme from 'theme';
 import App from './App';
+import mockWorker from 'mocks/browser';
 
-const { store } = configureStore();
-store.runSaga();
+async function renderMain(){
+  
+  const { store } = configureStore();
+  store.runSaga();
+  
+  const theme = configureTheme();
+  
+  mockWorker.start();
 
-const theme = configureTheme();
+  ReactDOM.render(
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
+    </Provider>,
+    document.getElementById('root')
+  );
+}
 
-ReactDOM.render(
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ThemeProvider>
-  </Provider>,
-  document.getElementById('root')
-);
+renderMain();

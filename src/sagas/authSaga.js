@@ -4,8 +4,39 @@ import {
   authCheckMeResult,
   authEmailLoginResult,
   authLogoutResult,
+  authSignupResult,
 } from 'apis/auth';
 import { getUserToken, removeUserToken, setUserToken } from 'utils/token';
+
+//SIGNUP
+const OKSignup = (payload) => {
+  return {
+    type: types.SIGNUP_SUCCESS,
+    payload,
+  };
+};
+
+const ErrSignup = (message) => {
+  return {
+    type: types.SIGNUP_ERROR,
+    globalMessage: {
+      status: 'error',
+      text: message,
+    },
+  };
+};
+
+export function* signupSaga({ payload }) {
+  try {
+    const { data } = yield call(authSignupResult, payload);
+
+    yield put(OKSignup(data));
+  } catch (error) {
+    const message = error.response?.data?.data?.message || error.message;
+
+    yield put(ErrSignup(message));
+  }
+}
 
 //LOGIN
 const OKLogin = (payload) => {
@@ -93,7 +124,7 @@ export function* logoutSaga() {
     const { data } = yield call(authLogoutResult, { token });
 
     removeUserToken();
-    
+
     yield put(OKLogout(data));
   } catch (error) {
     const message = error.response?.data?.data?.message || error.message;

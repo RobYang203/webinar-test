@@ -8,6 +8,7 @@ import NotFoundPage from 'pages/NotFoundPage';
 import MainPage from 'pages/MainPage';
 import LoginPage from 'pages/LoginPage';
 import PrivateRoute from 'components/PrivateRoute';
+import SignupPage from 'pages/SignUpPage';
 
 function MainLayout() {
   const getRoutePath = useCreateRoutePath();
@@ -23,6 +24,7 @@ function MainLayout() {
         />
         <PrivateRoute path={getRoutePath('/registered')} component={RegisteredPage} />
         <Route path={getRoutePath('/login')} component={LoginPage} />
+        <Route path={getRoutePath('/signup')} component={SignupPage} />
         <Route path='/404' component={NotFoundPage} />
         <Route path='/*' component={() => <Redirect to='/404' />} />
       </Switch>
