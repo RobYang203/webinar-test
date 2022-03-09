@@ -4,6 +4,7 @@ import {
   authCheckMeResult,
   authEmailLoginResult,
   authLogoutResult,
+  authSignupResult,
 } from 'apis/auth';
 import { getUserToken, removeUserToken, setUserToken } from 'utils/token';
 
@@ -27,7 +28,7 @@ const ErrSignup = (message) => {
 
 export function* signupSaga({ payload }) {
   try {
-    const { data } = yield call(authEmailLoginResult, payload);
+    const { data } = yield call(authSignupResult, payload);
 
     yield put(OKSignup(data));
   } catch (error) {
@@ -123,7 +124,7 @@ export function* logoutSaga() {
     const { data } = yield call(authLogoutResult, { token });
 
     removeUserToken();
-    
+
     yield put(OKLogout(data));
   } catch (error) {
     const message = error.response?.data?.data?.message || error.message;

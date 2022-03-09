@@ -11,7 +11,7 @@ import { validate } from 'utils/validate';
 import { signupFormSchema } from './schema';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { loginAction } from 'actions/creators/auth';
+import { loginAction, signupAction } from 'actions/creators/auth';
 import { Link } from 'react-router-dom';
 
 const useStyles = createUseStyles(
@@ -119,7 +119,7 @@ function SignupPage() {
   const onSignupCLick = (e) => {
     e.preventDefault();
     //login
-    console.log("🚀 ~ file: index.js ~ line 123 ~ onSignupCLick ~ signupForm", signupForm)
+    dispatch(signupAction(signupForm))
   };
 
   return (
