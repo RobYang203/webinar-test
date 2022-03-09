@@ -6,6 +6,7 @@ import {
   removeFavouritesById,
   subscribeWebinar,
   verifyUserAuthToken,
+  createUser,
 } from 'mocks/controllers';
 import { rest } from 'msw';
 import * as yup from 'yup';
@@ -73,6 +74,42 @@ export const authLoginHandler = rest.post(
   }
 );
 
+const signupSchema = yup.object().shape({
+  name: yup.string().min(4).required('name  error'),
+  email: yup.string().email().required('email error'),
+  password: yup.string().min(4).required('password  error'),
+});
+
+export const authSignupHandler = rest.post('/auth/signup', (req, res, ctx) => {
+  try {
+    const { name, password, email } = req.body;
+
+    signupSchema.validateSync({ name, email, password });
+
+    const user = getUserInfo(email);
+
+    if (Boolean(user)) throw Error('user is exist');
+
+    const newUser = createUser(name, email, password);
+
+    if (!Boolean(newUser)) throw Error('create user is fail');
+
+    return res(
+      ctx.status(200),
+      ctx.json({
+        user: newUser,
+      })
+    );
+  } catch (e) {
+    return res(
+      ctx.status(401),
+      ctx.json({
+        message: e.message,
+      })
+    );
+  }
+});
+
 export const authLogoutHandler = rest.post('/auth/logout', (req, res, ctx) => {
   try {
     const bearerAuthToken = req.headers.get('Authorization');
@@ -81,9 +118,7 @@ export const authLogoutHandler = rest.post('/auth/logout', (req, res, ctx) => {
 
     if (!Boolean(user)) throw Error('token error');
 
-    return res(
-      ctx.status(200),
-    );
+    return res(ctx.status(200));
   } catch (e) {
     return res(
       ctx.status(401),
@@ -133,7 +168,7 @@ export const getPostHandler = rest.get('/posts/:id', (req, res, ctx) => {
 
     const data = getWebinar(id);
 
-    if(!Boolean(data)) throw Error('data not found');
+    if (!Boolean(data)) throw Error('data not found');
 
     return res(
       ctx.status(200),
@@ -151,64 +186,68 @@ export const getPostHandler = rest.get('/posts/:id', (req, res, ctx) => {
   }
 });
 
+export const deleteFavouriteHandler = rest.delete(
+  '/favourites/post/:id',
+  (req, res, ctx) => {
+    try {
+      const bearerAuthToken = req.headers.get('Authorization');
+      const user = verifyUserAuthToken(bearerAuthToken);
 
-export const deleteFavouriteHandler = rest.delete('/favourites/post/:id', (req, res, ctx) => {
-  try {
-    const bearerAuthToken = req.headers.get('Authorization');
-    const user = verifyUserAuthToken(bearerAuthToken);
+      if (!Boolean(user)) throw Error('user not found');
 
-    if (!Boolean(user)) throw Error('user not found');
+      const id = req.params['id'];
+      const data = removeFavouritesById(user.id, id);
 
-    const id = req.params['id'];
-    const data = removeFavouritesById(user.id , id);
+      if (!Boolean(data)) throw Error('data not found');
 
-    if(!Boolean(data)) throw Error('data not found');
-
-    return res(
-      ctx.status(200),
-      ctx.json({
-        data,
-      })
-    );
-  } catch (e) {
-    return res(
-      ctx.status(401),
-      ctx.json({
-        message: e.message,
-      })
-    );
+      return res(
+        ctx.status(200),
+        ctx.json({
+          data,
+        })
+      );
+    } catch (e) {
+      return res(
+        ctx.status(401),
+        ctx.json({
+          message: e.message,
+        })
+      );
+    }
   }
-});
+);
 
+export const settingFavouritesHandler = rest.post(
+  '/favourites',
+  (req, res, ctx) => {
+    try {
+      const bearerAuthToken = req.headers.get('Authorization');
 
-export const settingFavouritesHandler = rest.post('/favourites', (req, res, ctx) => {
-  try {
-    const bearerAuthToken = req.headers.get('Authorization');
+      const user = verifyUserAuthToken(bearerAuthToken);
 
-    const user = verifyUserAuthToken(bearerAuthToken);
+      if (!Boolean(user)) throw Error('user not found');
 
-    if (!Boolean(user)) throw Error('user not found');
+      const { ids } = req.body;
 
-    const {ids} = req.body;
+      if (ids.length === 0) throw Error('no favourite item');
 
-    if(ids.length === 0) throw Error('no favourite item');
+      const data = subscribeWebinar(user.id, ids[0]);
 
-    const data = subscribeWebinar(user.id , ids[0]);
+      if (!Boolean(data)) throw Error('data not found');
 
-    if(!Boolean(data)) throw Error('data not found');
-    
-    return res(
-      ctx.status(200),
-      ctx.json({
-        data,
-      })
-    );
-  } catch (e) {
-    return res(
-      ctx.status(401),
-      ctx.json({
-        message: e.message,
-      })
-    );
+      return res(
+        ctx.status(200),
+        ctx.json({
+          data,
+        })
+      );
+    } catch (e) {
+      return res(
+        ctx.status(401),
+        ctx.json({
+          message: e.message,
+        })
+      );
+    }
   }
-});
+);

@@ -15,6 +15,14 @@ export const getUserInfo = (email) => {
   });
 };
 
+export const createUser = (name, email, password) => {
+  return DBSchema.users.create({
+    email,
+    name,
+    password,
+  });
+};
+
 export const createUserAuthToken = (user) => {
   const token = jsonwebtoken.sign(user, PRIVATE_KEY);
   return token;
