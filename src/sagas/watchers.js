@@ -1,6 +1,11 @@
 import { takeLatest } from 'redux-saga/effects';
 import types from 'actions/types';
-import { checkUserLoginSaga, loginSaga, logoutSaga } from './authSaga';
+import {
+  checkUserLoginSaga,
+  loginSaga,
+  logoutSaga,
+  signupSaga,
+} from './authSaga';
 import {
   addUserWebinarSaga,
   deleteUserWebinarSaga,
@@ -9,6 +14,10 @@ import {
 } from './webinarSaga';
 
 //auth
+export function* watchSignupSaga() {
+  yield takeLatest(types.SIGNUP, signupSaga);
+}
+
 export function* watchLoginSaga() {
   yield takeLatest(types.LOGIN, loginSaga);
 }

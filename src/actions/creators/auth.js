@@ -1,5 +1,12 @@
 import types from '../types';
 
+export const signupAction = (payload) => {
+  return {
+    type: types.SIGNUP,
+    payload,
+  };
+};
+
 export const loginAction = (payload) => {
   return {
     type: types.LOGIN,
