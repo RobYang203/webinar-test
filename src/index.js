@@ -6,7 +6,7 @@ import { ThemeProvider } from 'react-jss';
 import configureStore from 'store/configureStore';
 import configureTheme from 'theme';
 import App from './App';
-import mockWorker from 'mocks/browser';
+import configureServer from 'mocks/browser';
 
 async function renderMain(){
   
@@ -15,7 +15,7 @@ async function renderMain(){
   
   const theme = configureTheme();
   
-  mockWorker.start();
+  configureServer();
 
   ReactDOM.render(
     <Provider store={store}>

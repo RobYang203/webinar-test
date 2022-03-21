@@ -1,3 +1,4 @@
+import { Response } from 'miragejs';
 import {
   createUserAuthToken,
   getAllWebinars,
@@ -8,71 +9,12 @@ import {
   verifyUserAuthToken,
   createUser,
 } from 'mocks/controllers';
-import { rest } from 'msw';
 import * as yup from 'yup';
-
-export const authMeHandler = rest.post('/auth/me', (req, res, ctx) => {
-  try {
-    const bearerAuthToken = req.headers.get('Authorization');
-
-    const user = verifyUserAuthToken(bearerAuthToken);
-
-    if (!Boolean(user)) throw Error('token error');
-
-    return res(
-      ctx.status(200),
-      ctx.json({
-        user,
-      })
-    );
-  } catch (e) {
-    return res(
-      ctx.status(401),
-      ctx.json({
-        message: e.message,
-      })
-    );
-  }
-});
 
 const loginSchema = yup.object().shape({
   email: yup.string().email().required('email error'),
   password: yup.string().min(4).required('password  error'),
 });
-
-export const authLoginHandler = rest.post(
-  '/auth/email/login',
-  (req, res, ctx) => {
-    try {
-      const { email, password } = req.body;
-
-      loginSchema.validateSync({ email, password });
-
-      const user = getUserInfo(email);
-
-      if (!Boolean(user)) throw Error('user not found');
-
-      if (user.password !== password) throw Error('password  error');
-
-      const token = createUserAuthToken(user);
-
-      return res(
-        ctx.status(200),
-        ctx.json({
-          user,
-          token,
-        })
-      );
-    } catch (e) {
-      return res(
-        ctx.status(401),
-        ctx.json({
-          message: e.message,
-        })
-      );
-    }
-  }
-);
 
 const signupSchema = yup.object().shape({
   name: yup.string().min(4).required('name  error'),
@@ -80,69 +22,100 @@ const signupSchema = yup.object().shape({
   password: yup.string().min(4).required('password  error'),
 });
 
-export const authSignupHandler = rest.post('/auth/signup', (req, res, ctx) => {
-  try {
-    const { name, password, email } = req.body;
+const getRoutes = function () {
+  this.namespace = '/webinar-test';
 
-    signupSchema.validateSync({ name, email, password });
+  this.post('/auth/me', (schema, req) => {
+    try {
+      const bearerAuthToken = req.requestHeaders['Authorization'];
 
-    const user = getUserInfo(email);
+      const userDBItem = verifyUserAuthToken(schema, bearerAuthToken);
 
-    if (Boolean(user)) throw Error('user is exist');
+      if (!Boolean(userDBItem)) throw Error('token error');
 
-    const newUser = createUser(name, email, password);
+      const user = userDBItem.attrs;
 
-    if (!Boolean(newUser)) throw Error('create user is fail');
+      return {
+        user,
+      };
+    } catch (e) {
+      return new Response(401, { error: e.message }, e.message);
+    }
+  });
 
-    return res(
-      ctx.status(200),
-      ctx.json({
-        user: newUser,
-      })
-    );
-  } catch (e) {
-    return res(
-      ctx.status(401),
-      ctx.json({
-        message: e.message,
-      })
-    );
-  }
-});
+  this.post('/auth/email/login', (schema, req) => {
+    try {
+      const { email, password } = JSON.parse(req.requestBody);
 
-export const authLogoutHandler = rest.post('/auth/logout', (req, res, ctx) => {
-  try {
-    const bearerAuthToken = req.headers.get('Authorization');
+      loginSchema.validateSync({ email, password });
 
-    const user = verifyUserAuthToken(bearerAuthToken);
+      const userDBItem = getUserInfo(schema, email);
 
-    if (!Boolean(user)) throw Error('token error');
+      if (!Boolean(userDBItem)) throw Error('user not found');
 
-    return res(ctx.status(200));
-  } catch (e) {
-    return res(
-      ctx.status(401),
-      ctx.json({
-        message: e.message,
-      })
-    );
-  }
-});
+      const user = userDBItem.attrs;
 
-export const getPostsHandler = rest.get('/posts', (req, res, ctx) => {
-  try {
-    const bearerAuthToken = req.headers.get('Authorization');
+      if (user.password !== password) throw Error('password  error');
 
-    const page = Number(req.url.searchParams.get('page'));
-    const perPage = Number(req.url.searchParams.get('per_page'));
+      const token = createUserAuthToken(user);
 
-    const user = verifyUserAuthToken(bearerAuthToken);
+      return {
+        token,
+        user,
+      };
+    } catch (e) {
+      return new Response(401, { error: e.message }, e.message);
+    }
+  });
 
-    const { total_pages, list } = getAllWebinars(user, page, perPage);
+  this.post('/auth/signup', (schema, req) => {
+    try {
+      const { name, password, email } = req.body;
 
-    return res(
-      ctx.status(200),
-      ctx.json({
+      signupSchema.validateSync({ name, email, password });
+
+      const user = getUserInfo(email);
+
+      if (Boolean(user)) throw Error('user is exist');
+
+      const newUser = createUser(schema, name, email, password);
+
+      if (!Boolean(newUser)) throw Error('create user is fail');
+
+      return {
+        user: newUser.attrs,
+      };
+    } catch (e) {
+      return new Response(401, { error: e.message }, e.message);
+    }
+  });
+
+  this.post('/auth/logout', (schema, req) => {
+    try {
+      const bearerAuthToken = req.requestHeaders['Authorization'];
+
+      const user = verifyUserAuthToken(schema, bearerAuthToken);
+
+      if (!Boolean(user)) throw Error('token error');
+
+      return {};
+    } catch (e) {
+      return new Response(401, { error: e.message }, e.message);
+    }
+  });
+
+  this.get('/posts', (schema, req) => {
+    try {
+      const bearerAuthToken = req.requestHeaders['Authorization'];
+
+      const page = Number(req.queryParams['page']);
+      const perPage = Number(req.queryParams['per_page']);
+
+      const user = verifyUserAuthToken(schema, bearerAuthToken);
+
+      const { total_pages, list } = getAllWebinars(schema, user, page, perPage);
+
+      return {
         meta: {
           pagination: {
             current_page: page,
@@ -150,80 +123,53 @@ export const getPostsHandler = rest.get('/posts', (req, res, ctx) => {
           },
         },
         data: list,
-      })
-    );
-  } catch (e) {
-    return res(
-      ctx.status(401),
-      ctx.json({
-        message: e.message,
-      })
-    );
-  }
-});
+      };
+    } catch (e) {
+      return new Response(401, { error: e.message }, e.message);
+    }
+  });
 
-export const getPostHandler = rest.get('/posts/:id', (req, res, ctx) => {
-  try {
-    const id = req.params['id'];
-
-    const data = getWebinar(id);
-
-    if (!Boolean(data)) throw Error('data not found');
-
-    return res(
-      ctx.status(200),
-      ctx.json({
-        data,
-      })
-    );
-  } catch (e) {
-    return res(
-      ctx.status(401),
-      ctx.json({
-        message: e.message,
-      })
-    );
-  }
-});
-
-export const deleteFavouriteHandler = rest.delete(
-  '/favourites/post/:id',
-  (req, res, ctx) => {
+  this.get('/posts/:id', (schema, req) => {
     try {
-      const bearerAuthToken = req.headers.get('Authorization');
-      const user = verifyUserAuthToken(bearerAuthToken);
+      const id = req.params['id'];
+
+      const data = getWebinar(schema, id);
+
+      if (!Boolean(data)) throw Error('data not found');
+
+      return {
+        data,
+      };
+    } catch (e) {
+      return new Response(401, { error: e.message }, e.message);
+    }
+  });
+
+  this.del('/favourites/post/:id', (schema, req) => {
+    try {
+      const bearerAuthToken = req.requestHeaders['Authorization'];
+      const user = verifyUserAuthToken(schema, bearerAuthToken);
 
       if (!Boolean(user)) throw Error('user not found');
 
       const id = req.params['id'];
-      const data = removeFavouritesById(user.id, id);
+      const data = removeFavouritesById(schema, user.id, id);
 
       if (!Boolean(data)) throw Error('data not found');
 
-      return res(
-        ctx.status(200),
-        ctx.json({
-          data,
-        })
-      );
+      return {
+        data,
+      };
     } catch (e) {
-      return res(
-        ctx.status(401),
-        ctx.json({
-          message: e.message,
-        })
-      );
+      return new Response(401, { error: e.message }, e.message);
     }
-  }
-);
+  });
 
-export const settingFavouritesHandler = rest.post(
-  '/favourites',
-  (req, res, ctx) => {
+  this.post('/favourites', (schema, req) => {
     try {
-      const bearerAuthToken = req.headers.get('Authorization');
+      const bearerAuthToken = req.requestHeaders['Authorization'];
 
-      const user = verifyUserAuthToken(bearerAuthToken);
+      const user = verifyUserAuthToken(schema, bearerAuthToken);
 
       if (!Boolean(user)) throw Error('user not found');
 
@@ -231,23 +177,17 @@ export const settingFavouritesHandler = rest.post(
 
       if (ids.length === 0) throw Error('no favourite item');
 
-      const data = subscribeWebinar(user.id, ids[0]);
+      const data = subscribeWebinar(schema, user.id, ids[0]);
 
       if (!Boolean(data)) throw Error('data not found');
 
-      return res(
-        ctx.status(200),
-        ctx.json({
-          data,
-        })
-      );
+      return {
+        data,
+      };
     } catch (e) {
-      return res(
-        ctx.status(401),
-        ctx.json({
-          message: e.message,
-        })
-      );
+      return new Response(401, { error: e.message }, e.message);
     }
-  }
-);
+  });
+};
+
+export default getRoutes;

@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^6.0.0-alpha.7",
+    "miragejs": "^0.1.43",
     "msw": "^0.38.1"
   },
   "msw": {

@@ -1,9 +1,27 @@
-import { setupWorker } from 'msw';
-import { serverInit } from './controllers';
-import * as routes from './routes';
+import { createServer } from 'miragejs';
+import { factories, models } from './db';
+import routes from './routes';
 
-const mockWorker = setupWorker(...Object.values(routes));
+const configureServer = () => {
+  return createServer({
+    routes,
+    factories,
+    models,
+    fixtures: {
+      users: [
+        {
+          name: 'Tony',
+          password: '123456',
+          email: 'tony@gmail.com',
+        },
+      ],
+    },
+    seeds(server) {
+      server.loadFixtures();
+      
+      server.createList('webinar', 100);
+    },
+  });
+};
 
-serverInit();
-
-export default mockWorker;
+export default configureServer;
