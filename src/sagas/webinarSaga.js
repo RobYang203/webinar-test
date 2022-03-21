@@ -22,11 +22,12 @@ const ErrGetNextWebinars = (message) => {
 };
 
 export function* getNextWebinarsSaga({ payload }) {
+  console.log("🚀 ~ file: webinarSaga.js ~ line 25 ~ function*getNextWebinarsSaga ~ payload", payload)
   try {
-    const token = yield select(({ auth }) => auth.token);
-    const { data } = yield call(getPostsResult, { token, ...payload });
+    const { data } = yield call(getPostsResult, { ...payload });
+    console.log("🚀 ~ file: webinarSaga.js ~ line 28 ~ function*getNextWebinarsSaga ~ data", data[0])
 
-    yield put(OKGetNextWebinars(data));
+    yield put(OKGetNextWebinars(data[0]));
   } catch (error) {
     const message = error.response?.data?.data?.message || error.message;
 

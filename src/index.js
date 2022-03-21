@@ -6,21 +6,22 @@ import { ThemeProvider } from 'react-jss';
 import configureStore from 'store/configureStore';
 import configureTheme from 'theme';
 import App from './App';
-import mockWorker from 'mocks/browser';
 
-async function renderMain(){
+async function renderMain() {
+  // initializeFirebaseApp();
   
   const { store } = configureStore();
   store.runSaga();
-  
-  const theme = configureTheme();
-  
-  mockWorker.start();
 
+  const theme = configureTheme();
+
+  // mockWorker.start();
+
+ 
   ReactDOM.render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <BrowserRouter basename={process.env.REACT_APP_BASENAME} >
+        <BrowserRouter basename={process.env.REACT_APP_BASENAME}>
           <App />
         </BrowserRouter>
       </ThemeProvider>

@@ -1,35 +1,41 @@
-import { getServer } from './index';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { getFirestoreInstance, setAPIResult } from './index';
 
-const server = getServer();
+const db = getFirestoreInstance();
 
-export const authEmailLoginResult = async (payload) => {
-  const res = await server.post('/auth/email/login', payload);
+const userCollection = collection(db, 'users');
 
-  return res;
+export const authEmailLoginResult = async ({ email, password }) => {
+  const queryUser = query(
+    userCollection,
+    where('email', '==', email),
+    where('password', '==', password)
+  );
+
+  const usersSnapshot = await getDocs(queryUser);
+
+  const users = usersSnapshot.docs.map((userDoc) => {
+    return userDoc.data();
+  });
+
+  if (!Boolean(users) || users.length === 0) return setAPIResult(false, 'user not find ');
+  else return setAPIResult(true, users[0]);
 };
 
 export const authCheckMeResult = async ({ token }) => {
-  const res = await server.post('/auth/me', null, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return res;
+  // const res = await server.post('/auth/me', null, {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // });
+  // return res;
 };
 
 export const authLogoutResult = async ({ token }) => {
-  const res = await server.post('/auth/logout', null, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return res;
+  return setAPIResult(true)
 };
 
 export const authSignupResult = async (payload) => {
-  const res = await server.post('/auth/signup', payload);
-
-  return res;
+  // const res = await server.post('/auth/signup', payload);
+  // return res;
 };

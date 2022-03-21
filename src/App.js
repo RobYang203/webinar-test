@@ -1,4 +1,7 @@
 import { checkUserLoginAction } from 'actions/creators/auth';
+import { authEmailLoginResult } from 'apis/auth';
+import { deleteFavouritedResult, insertFavouriteResult } from 'apis/favourited';
+import { getPostsResult, insertPostResult } from 'apis/post';
 import LoadingMask from 'components/LoadingMask';
 import MainLayout from 'layouts/MainLayout';
 import { useEffect } from 'react';
@@ -10,7 +13,8 @@ function App() {
 
   useEffect(() => {
     dispatch(checkUserLoginAction());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

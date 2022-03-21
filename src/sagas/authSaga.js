@@ -90,7 +90,7 @@ export function* checkUserLoginSaga() {
 
     if (!Boolean(token)) yield put(ErrCheck());
     else {
-      const { data } = yield call(authCheckMeResult, { token });
+      const { data } = yield call(authEmailLoginResult, { user:'tony' });
 
       yield put(OKCheck({ ...data, token }));
     }

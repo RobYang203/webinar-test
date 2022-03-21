@@ -1,23 +1,19 @@
-import { getServer } from './index';
+import { addDoc, collection, deleteDoc, doc } from 'firebase/firestore';
+import { getFirestoreInstance, setAPIResult } from './index';
 
-const server = getServer();
+const db = getFirestoreInstance();
 
-export const insertFavouriteResult = async ({ token, ...payload }) => {
-  const res = await server.post(`/favourites`, payload, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+const subscribesCollection = collection(db, 'subscribes');
 
-  return res;
+export const insertFavouriteResult = async ({ ...payload }) => {
+  const subscribesDoc = await addDoc(subscribesCollection, payload);
+
+  if (Boolean(subscribesDoc.id)) return setAPIResult(true, subscribesDoc.id);
+  else return setAPIResult(false, 'subscribe error');
 };
 
 export const deleteFavouritedResult = async ({ token, id }) => {
-  const res = await server.delete(`/favourites/post/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+   await deleteDoc(doc(db, 'subscribes', id));
 
-  return res;
+  return setAPIResult(true, id);
 };
