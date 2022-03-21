@@ -1,31 +1,35 @@
-import { factory, primaryKey } from '@mswjs/data';
 import faker from '@faker-js/faker';
+import { Factory, Model } from 'miragejs';
 
-const DBSchema = factory({
-  users: {
-    id: primaryKey(faker.datatype.uuid),
-    email: String,
-    name: String,
-    password: String,
-  },
-  webinars: {
-    id: primaryKey(faker.datatype.uuid),
-    title: String,
-    content: String,
-    created_at: Number,
-  },
-  subscribes: {
-    id: primaryKey(faker.datatype.uuid),
-    userId: String,
-    webinarId: String,
-  },
-  auth: {
-    id: primaryKey(faker.datatype.uuid),
-    token: String,
-    userId: String,
-  },
-});
+export const models = {
+  user: Model,
+  subscribe: Model,
+  webinar: Model,
+};
 
-window.db = DBSchema;
-
-export default DBSchema;
+export const factories = {
+  user: Factory.extend({
+    id(i) {
+      return i + 1;
+    },
+  }),
+  webinar: Factory.extend({
+    id(i) {
+      return i + 1;
+    },
+    title() {
+      return faker.lorem.words();
+    },
+    content() {
+      return `<p>${faker.lorem.paragraphs()}</p> <p>${faker.lorem.paragraphs()}</p>`;
+    },
+    created_at() {
+      return faker.time.recent('unix');
+    },
+  }),
+  subscribe: Factory.extend({
+    id(i) {
+      return i + 1;
+    },
+  }),
+};
