@@ -1,22 +1,16 @@
-import faker from '@faker-js/faker';
 import jsonwebtoken from 'jsonwebtoken';
 import { trim } from 'lodash';
-import DBSchema from '../db';
 
 const PRIVATE_KEY = 'webinartest';
 
-export const getUserInfo = (email) => {
-  return DBSchema.users.findFirst({
-    where: {
-      email: {
-        equals: email,
-      },
-    },
+export const getUserInfo = (schema, email) => {
+  return schema.users.findBy({
+    email,
   });
 };
 
-export const createUser = (name, email, password) => {
-  return DBSchema.users.create({
+export const createUser = (schema, name, email, password) => {
+  return schema.users.create({
     email,
     name,
     password,
@@ -28,7 +22,7 @@ export const createUserAuthToken = (user) => {
   return token;
 };
 
-export const verifyUserAuthToken = (bearerAuthToken) => {
+export const verifyUserAuthToken = (schema, bearerAuthToken) => {
   if (!Boolean(bearerAuthToken)) return null;
 
   const token = trim(bearerAuthToken.replace(/^Bearer/, ''));
@@ -37,36 +31,33 @@ export const verifyUserAuthToken = (bearerAuthToken) => {
 
   const { email } = jsonwebtoken.verify(token, PRIVATE_KEY);
 
-  return getUserInfo(email);
+  return getUserInfo(schema, email);
 };
 
-export const getAllWebinars = (user, page, perPage) => {
-  const count = DBSchema.webinars.count();
+export const getAllWebinars = (schema, user, page, perPage) => {
+  const count = schema.db.webinars.length;
 
   const morePage = count % perPage > 0 ? 1 : 0;
   const totalPages = parseInt(count / perPage) + morePage;
 
-  const webinarPages = DBSchema.webinars.findMany({
-    take: perPage,
-    skip: (page - 1) * perPage,
+  const webinarAllPage = schema.webinars.all();
+
+  const webinarPages = webinarAllPage.filter((item, i) => {
+    return i <= page * perPage - 1;
   });
 
   const subscribes = user
-    ? DBSchema.subscribes.findMany({
-        where: {
-          userId: {
-            equals: user.id,
-          },
-        },
+    ? schema.subscribes.findBy({
+        userId: user.id,
       })
     : [];
 
   return {
     total_pages: totalPages,
-    list: webinarPages.map((webinar) => {
+    list: webinarPages.models.map((webinar) => {
       return {
-        ...webinar,
-        favourited: subscribes.some(
+        ...webinar.attrs,
+        favourited: (subscribes ?? []).some(
           ({ webinarId }) => webinarId === webinar.id
         ),
       };
@@ -74,68 +65,28 @@ export const getAllWebinars = (user, page, perPage) => {
   };
 };
 
-export const getWebinar = (id) => {
-  return DBSchema.webinars.findFirst({
-    where: {
-      id: {
-        equals: id,
-      },
-    },
+export const getWebinar = (schema, id) => {
+  return schema.webinars.findBy({
+    id,
   });
 };
 
-export const subscribeWebinar = (userId, webinarId) => {
-  const targetCount = DBSchema.webinars.count({
-    where: {
-      id: {
-        equals: webinarId,
-      },
-    },
-  });
+export const subscribeWebinar = (schema, userId, webinarId) => {
+  const targetWebinar = schema.webinars.find(webinarId);
 
-  if (targetCount === 0) return null;
+  if (targetWebinar.length === 0) return null;
 
-  return DBSchema.subscribes.create({
+  return schema.subscribes.create({
     userId,
     webinarId,
   });
 };
 
-export const removeFavouritesById = (userId, webinarId) => {
-  const targetCount = DBSchema.webinars.count({
-    where: {
-      id: {
-        equals: webinarId,
-      },
-    },
-  });
-
-  if (targetCount === 0) return null;
-
-  return DBSchema.subscribes.delete({
-    where: {
-      userId: {
-        equals: userId,
-      },
-      webinarId: {
-        equals: webinarId,
-      },
-    },
-  });
-};
-
-export const serverInit = () => {
-  DBSchema.users.create({
-    name: 'Tony',
-    password: '123456',
-    email: 'tony@gmail.com',
-  });
-
-  Array.from({ length: 51 }, () => {
-    return DBSchema.webinars.create({
-      title: faker.lorem.words(),
-      content: `<p>${faker.lorem.paragraphs()}</p> <p>${faker.lorem.paragraphs()}</p>`,
-      created_at: faker.time.recent('unix'),
-    });
-  });
+export const removeFavouritesById = (schema, userId, webinarId) => {
+  return schema.subscribes
+    .findBy({
+      userId: userId,
+      webinarId: webinarId,
+    })
+    .destroy();
 };
