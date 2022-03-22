@@ -42,24 +42,29 @@ export const getAllWebinars = (schema, user, page, perPage) => {
 
   const webinarAllPage = schema.webinars.all();
 
+  const pageStart = (page - 1) * perPage;
+  const pageEnd = pageStart + perPage - 1;
+
   const webinarPages = webinarAllPage.filter((item, i) => {
-    return i <= page * perPage - 1;
+    return i <= pageEnd && i >= pageStart;
   });
 
   const subscribes = user
-    ? schema.subscribes.findBy({
+    ? schema.subscribes.where({
         userId: user.id,
-      })
+      }).models
     : [];
+
 
   return {
     total_pages: totalPages,
     list: webinarPages.models.map((webinar) => {
       return {
         ...webinar.attrs,
-        favourited: (subscribes ?? []).some(
-          ({ webinarId }) => webinarId === webinar.id
-        ),
+        favourited: subscribes.some((subscribe) => {
+          const { webinarId } = subscribe.attrs;
+          return webinarId === webinar.id;
+        }),
       };
     }),
   };
@@ -83,7 +88,7 @@ export const subscribeWebinar = (schema, userId, webinarId) => {
 };
 
 export const removeFavouritesById = (schema, userId, webinarId) => {
-  return schema.subscribes
+  schema.subscribes
     .findBy({
       userId: userId,
       webinarId: webinarId,
