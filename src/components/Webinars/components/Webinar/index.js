@@ -87,7 +87,7 @@ function Webinar({
     <div className={classes.root}>
       <Card>
         <CardHeader className={classes.header}>
-          <h5 className={classes.title}>{created_at}</h5>
+          <h5 className={classes.title}>{getAddDayString(created_at , 0)}</h5>
           <h4 className={classes.subtitle}>{title}</h4>
         </CardHeader>
         <CardBody className={classes.body}>
@@ -121,7 +121,7 @@ function Webinar({
 }
 
 Webinar.propTypes = {
-  created_at: PropTypes.string.isRequired,
+  created_at: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   onRegisteredClick: PropTypes.func.isRequired,

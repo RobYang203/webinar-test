@@ -4,7 +4,7 @@ import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 
 const useStyles = createUseStyles(
-  () => ({
+  ({params}) => ({
     root: {
       flexBasis: 100,
       flexShrink: 1,
@@ -14,7 +14,7 @@ const useStyles = createUseStyles(
     hide:{
       display: 'none'
     },
-    '@media (max-width: 400px)':{
+    [`@media (max-width: ${params.mobileWidth}px)`]:{
       root: {
         width : 100,
         flexBasis: 25,

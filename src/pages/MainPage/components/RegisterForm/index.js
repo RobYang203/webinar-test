@@ -13,7 +13,7 @@ import { validate } from 'utils/validate';
 import { registerFormSchema } from './schema';
 
 const useStyles = createUseStyles(
-  ({ palette }) => {
+  ({ palette, params }) => {
     return {
       root: {
         padding: `6.8rem`,
@@ -45,7 +45,7 @@ const useStyles = createUseStyles(
       button: {
         height: 43,
       },
-      '@media (max-width: 400px)': {
+      [`@media (max-width: ${params.mobileWidth}px)`]: {
         root: {
           paddingRight: 28,
           paddingLeft: 21,

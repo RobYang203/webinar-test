@@ -39,6 +39,7 @@ function LoadingMask() {
 
   if (isEmpty(fetchingTypes)) {
     document.body.style.overflow = 'auto';
+    
     return null;
   } else {
     document.body.style.overflow = 'hidden';

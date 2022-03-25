@@ -74,7 +74,7 @@ const getRoutes = function () {
 
       signupSchema.validateSync({ name, email, password });
 
-      const user = getUserInfo(email);
+      const user = getUserInfo(schema, email);
 
       if (Boolean(user)) throw Error('user is exist');
 
@@ -151,7 +151,7 @@ const getRoutes = function () {
       const user = verifyUserAuthToken(schema, bearerAuthToken);
 
       if (!Boolean(user)) throw Error('user not found');
-      
+
       const id = req.params['id'];
       removeFavouritesById(schema, user.id, id);
 

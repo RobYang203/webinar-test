@@ -51,6 +51,9 @@ const theme = {
       paddingTop: 100,
     },
   },
+  params: {
+    mobileWidth: 500,
+  },
 };
 
 export default function configureTheme() {

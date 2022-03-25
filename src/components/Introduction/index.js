@@ -4,7 +4,7 @@ import { createUseStyles } from 'react-jss';
 import { createMarkup } from 'utils';
 
 const useStyles = createUseStyles(
-  (theme) => {
+  ({ palette, params }) => {
     return {
       root: {
         padding: `57px 284px 72px 282px`,
@@ -14,16 +14,16 @@ const useStyles = createUseStyles(
           fontSize: 28,
           marginBottom: 20,
           fontFamily: 'SF Pro Display',
-          color: theme.palette.textPrimary,
+          color: palette.textPrimary,
         },
         '& > p': {
           fontSize: 16,
           lineHeight: '26px',
           fontFamily: 'SF Pro Display',
-          color: theme.palette.textSecondary,
+          color: palette.textSecondary,
         },
       },
-      '@media (max-width: 400px)': {
+      [`@media (max-width: ${params.mobileWidth}px)`]: {
         root: {
           paddingRight: 28,
           paddingLeft: 21,
