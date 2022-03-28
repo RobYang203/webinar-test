@@ -70,11 +70,11 @@ const getRoutes = function () {
 
   this.post('/auth/signup', (schema, req) => {
     try {
-      const { name, password, email } = req.body;
+      const { name, password, email } = JSON.parse(req.requestBody);
 
       signupSchema.validateSync({ name, email, password });
 
-      const user = getUserInfo(email);
+      const user = getUserInfo(schema, email);
 
       if (Boolean(user)) throw Error('user is exist');
 
@@ -153,13 +153,9 @@ const getRoutes = function () {
       if (!Boolean(user)) throw Error('user not found');
 
       const id = req.params['id'];
-      const data = removeFavouritesById(schema, user.id, id);
+      removeFavouritesById(schema, user.id, id);
 
-      if (!Boolean(data)) throw Error('data not found');
-
-      return {
-        data,
-      };
+      return {};
     } catch (e) {
       return new Response(401, { error: e.message }, e.message);
     }
@@ -173,7 +169,7 @@ const getRoutes = function () {
 
       if (!Boolean(user)) throw Error('user not found');
 
-      const { ids } = req.body;
+      const { ids } = JSON.parse(req.requestBody);
 
       if (ids.length === 0) throw Error('no favourite item');
 

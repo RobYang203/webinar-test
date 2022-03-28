@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { signupAction } from 'actions/creators/auth';
 
 const useStyles = createUseStyles(
-  ({ palette, commonStyles }) => {
+  ({ palette, commonStyles, params }) => {
     return {
       root: {
         ...commonStyles.pageRootStyle,
@@ -54,7 +54,7 @@ const useStyles = createUseStyles(
         marginBottom: 10,
         float: 'right',
       },
-      '@media (max-width: 400px)': {
+      [`@media (max-width: ${params.mobileWidth}px)`]: {
         container: {
           paddingRight: 28,
           paddingLeft: 21,
@@ -116,7 +116,7 @@ function SignupPage() {
   const onSignupCLick = (e) => {
     e.preventDefault();
     //login
-    dispatch(signupAction(signupForm))
+    dispatch(signupAction(signupForm));
   };
 
   return (

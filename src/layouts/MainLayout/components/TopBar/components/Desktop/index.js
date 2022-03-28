@@ -4,7 +4,7 @@ import { createUseStyles } from 'react-jss';
 import MenuItem from '../MenuItem';
 import AuthButtonGroup from '../AuthButtonGroup';
 
-const useStyles = createUseStyles(() => ({
+const useStyles = createUseStyles(({params}) => ({
   root: {
     top: 0,
     left: 0,
@@ -57,7 +57,7 @@ const useStyles = createUseStyles(() => ({
     flexGrow: 0,
     height: 43,
   },
-  '@media (max-width: 400px)': {
+  [`@media (max-width: ${params.mobileWidth}px)`]: {
     root: {
       padding: 0,
       width: '100vw',

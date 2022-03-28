@@ -6,7 +6,7 @@ import Webinar from './components/Webinar';
 import { useHistory } from 'react-router';
 
 const useStyles = createUseStyles(
-  ({ palette }) => {
+  ({ palette, params }) => {
     return {
       root: {
         height: 780,
@@ -27,12 +27,12 @@ const useStyles = createUseStyles(
         textAlign: 'center',
         color: palette.textPrimary,
       },
-      '@media (max-width: 400px)': {
+      [`@media (max-width: ${params.mobileWidth}px)`]: {
         root: {
           paddingRight: 26,
           paddingLeft: 26,
         },
-      }
+      },
     };
   },
   { name: 'webinars' }

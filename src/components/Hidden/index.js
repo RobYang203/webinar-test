@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useTheme } from 'react-jss';
 
-function checkScreenWidth() {
-  if (window.innerWidth > 400) {
+function checkScreenWidth(mobileWidth = 0) {
+  if (window.innerWidth > mobileWidth) {
     return 'desktop';
   } else {
     return 'mobile';
   }
 }
 
-function Hidden({ children, size }) {
-  const [recentSize, setRecentSize] = useState(checkScreenWidth);
+function useTrackingScreenWidth(){
+  const { params } = useTheme();
+  const [recentSize, setRecentSize] = useState(checkScreenWidth(params.mobileWidth));
 
   useEffect(() => {
     function onResize() {
-      setRecentSize(checkScreenWidth());
+      setRecentSize(checkScreenWidth(params.mobileWidth));
     }
 
     window.addEventListener('resize', onResize);
@@ -22,7 +24,17 @@ function Hidden({ children, size }) {
     return () => {
       window.removeEventListener('resize', onResize);
     };
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  return recentSize;
+}
+
+
+
+function Hidden({ children, size }) {
+  const recentSize = useTrackingScreenWidth();
 
   return <div>{recentSize === size && children}</div>;
 }

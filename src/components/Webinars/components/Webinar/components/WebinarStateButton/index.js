@@ -23,7 +23,7 @@ function WebinarStateButton({ id, isRegistered, onRegisteredClick , onRegisterNo
 }
 
 WebinarStateButton.propTypes = {
-  id:PropTypes.number.isRequired, 
+  id:PropTypes.string.isRequired, 
   isRegistered:PropTypes.bool.isRequired,
   onRegisteredClick: PropTypes.func.isRequired,
   onRegisterNowClick: PropTypes.func.isRequired,

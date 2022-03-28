@@ -15,7 +15,7 @@ import { loginAction } from 'actions/creators/auth';
 import { Link } from 'react-router-dom';
 
 const useStyles = createUseStyles(
-  ({ palette, commonStyles }) => {
+  ({ palette, commonStyles , params }) => {
     return {
       root: {
         ...commonStyles.pageRootStyle,
@@ -56,7 +56,7 @@ const useStyles = createUseStyles(
         marginBottom: 10,
         float: 'right'
       },
-      '@media (max-width: 400px)': {
+      [`@media (max-width: ${params.mobileWidth}px)`]: {
         container: {
           paddingRight: 28,
           paddingLeft: 21,
@@ -165,7 +165,7 @@ function LoginPage() {
               onChange={onFormChange('password')}
               showErrorMsg={form.password !== null}
             />
-            <Link className={classes.signUpBtn}>Sign up?</Link>
+            <Link className={classes.signUpBtn} to='/signup'>Sign up?</Link>
           </CardBody>
           <CardFooter className={classes.footer}>
             <Button

@@ -5,7 +5,7 @@ import Button from 'components/Button';
 import { FaChevronRight } from 'react-icons/fa';
 
 const useStyles = createUseStyles(
-  ({ palette }) => {
+  ({ palette, params }) => {
     return {
       root: {
         gap: 20,
@@ -40,16 +40,16 @@ const useStyles = createUseStyles(
         fontSize: 16,
         padding: 0,
       },
-      '@media (max-width: 400px)': {
+      [`@media (max-width: ${params.mobileWidth}px)`]: {
         root: {
           paddingRight: 28,
           paddingLeft: 21,
         },
-        intro:{
+        intro: {
           '& > p': {
-            width: '90vw'
+            width: '90vw',
           },
-        }
+        },
       },
     };
   },
